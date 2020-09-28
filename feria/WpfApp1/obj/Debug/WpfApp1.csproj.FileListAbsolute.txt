@@ -1,0 +1,15 @@
+D:\proyects\feria\feria\WpfApp1\bin\Debug\WpfApp1.exe.config
+D:\proyects\feria\feria\WpfApp1\bin\Debug\WpfApp1.exe
+D:\proyects\feria\feria\WpfApp1\bin\Debug\WpfApp1.pdb
+D:\proyects\feria\feria\WpfApp1\obj\Debug\WpfApp1.csprojAssemblyReference.cache
+D:\proyects\feria\feria\WpfApp1\obj\Debug\MainWindow.g.cs
+D:\proyects\feria\feria\WpfApp1\obj\Debug\App.g.cs
+D:\proyects\feria\feria\WpfApp1\obj\Debug\WpfApp1_MarkupCompile.cache
+D:\proyects\feria\feria\WpfApp1\obj\Debug\WpfApp1_MarkupCompile.lref
+D:\proyects\feria\feria\WpfApp1\obj\Debug\MainWindow.baml
+D:\proyects\feria\feria\WpfApp1\obj\Debug\WpfApp1.g.resources
+D:\proyects\feria\feria\WpfApp1\obj\Debug\WpfApp1.Properties.Resources.resources
+D:\proyects\feria\feria\WpfApp1\obj\Debug\WpfApp1.csproj.GenerateResource.cache
+D:\proyects\feria\feria\WpfApp1\obj\Debug\WpfApp1.csproj.CoreCompileInputs.cache
+D:\proyects\feria\feria\WpfApp1\obj\Debug\WpfApp1.exe
+D:\proyects\feria\feria\WpfApp1\obj\Debug\WpfApp1.pdb
