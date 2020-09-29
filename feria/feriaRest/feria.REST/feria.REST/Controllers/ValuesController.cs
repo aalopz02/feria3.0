@@ -19,7 +19,10 @@ namespace feria.REST.Controllers
         // GET api/values/5
         public string Get(int id)
         {
-            return "perro";
+            if (id != 5) {
+                return "perro";
+            }
+            return "gato";
         }
 
         // POST api/values
@@ -35,6 +38,7 @@ namespace feria.REST.Controllers
         // DELETE api/values/5
         public void Delete(int id)
         {
+            Get(id);
         }
     }
 }
