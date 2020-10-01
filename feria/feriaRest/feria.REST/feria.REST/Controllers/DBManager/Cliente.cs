@@ -16,7 +16,7 @@ namespace feria.REST.Controllers.DBManager
         private int telefono;
         private String user;
         private String password;
-
+        
         public Cliente(int cedula, List<String> nombreFull, List<String> direccion, String fechaNacimiento, int telefono, String usuario, String password) {
             this.cedula = cedula;
             this.nombre = nombreFull[0];

@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace feria.REST.Controllers.DBManager
 {
     public class Productor
     {
-        private int cedula;
-        private String nombre;
-        private String apellido1;
-        private String apellido2;
-        private List<String> direccion;
-        private String fechaNacimiento;
-        private int telefono;
-        private int sinpe;
-        private List<String> direccionesEntrega;
+        public int cedula;
+        public String nombre;
+        public String apellido1;
+        public String apellido2;
+        public List<String> direccion;
+        public String fechaNacimiento;
+        public int telefono;
+        public int sinpe;
+        public List<String> direccionesEntrega;
+        public List<Producto> catalogo;
 
-        public Productor(int cedula, List<String> nombreFull, List<String> direccion, String fechaNacimiento, int telefono, int sinpe, List<String> entrega)
+        public Productor(int cedula, List<String> nombreFull, List<String> direccion, String fechaNacimiento, String telefono, String sinpe, List<String> entrega)
         {
             this.cedula = cedula;
             this.nombre = nombreFull[0];
@@ -26,9 +25,13 @@ namespace feria.REST.Controllers.DBManager
             this.direccion = direccion;
             this.direccionesEntrega = entrega;
             this.fechaNacimiento = fechaNacimiento;
-            this.telefono = telefono;
-            this.sinpe = sinpe;
+            this.telefono = int.Parse(telefono);
+            this.sinpe = int.Parse(sinpe);
 
+        }
+
+        public void AddProducto(Producto producto) {
+            DataBaseWriter.AddProducto(cedula,producto);
         }
     }
 }

@@ -159,8 +159,10 @@
     <Compile Include="Controllers\DBManager\Cliente.cs" />
     <Compile Include="Controllers\DBManager\DataBaseLoader.cs" />
     <Compile Include="Controllers\DBManager\DataBaseWriter.cs" />
+    <Compile Include="Controllers\DBManager\Producto.cs" />
     <Compile Include="Controllers\DBManager\Productor.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductorController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
