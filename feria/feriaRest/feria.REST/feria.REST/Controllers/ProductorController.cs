@@ -10,7 +10,7 @@ namespace feria.REST.Controllers
 {
     public class ProductorController : ApiController
     {
-        // Post api/Productor?id=000&info=nombre-appellido-apellido2-provincia-canton-distrito-fecha-1-2-lugaresN-lugarQ
+        // Post /api/Productor/Nuevo?id=000&info=nombre-appellido-apellido2-provincia-canton-distrito-fecha-1-2-lugaresN-lugarQ
         public void GET(int id, string info)
         {
             String[] valores = info.Split('-');
@@ -32,9 +32,13 @@ namespace feria.REST.Controllers
                 listaLugaresEntrega.Add(valores[i]);
             }
 
-            Productor productor = new Productor(id, listaNombre, listaDireccion, valores[6],
-                                                 valores[7], valores[8], listaLugaresEntrega);
-            DataBaseWriter.CrearNuevoProductor(productor).ToString();
+            //Productor productor = new Productor(id, listaNombre, listaDireccion, valores[6],
+            //                                     valores[7], valores[8], listaLugaresEntrega);
+            //DataBaseWriter.CrearNuevoProductor(productor).ToString();
+            //String nombre, String categoria, int precio, String modoVenta
+            Productor productor = DataBaseLoader.LoadProductor(id);
+            Producto producto = new Producto("nombreProd2", "categori2a", 22, "kilo");
+            productor.AddProducto(producto);
         }
     }
 }

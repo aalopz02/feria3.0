@@ -79,7 +79,7 @@ namespace feria.REST.Controllers.DBManager
         }
 
         public static void AddProducto(int cedula, Producto producto) {
-            XmlDocument xmlDoc = DataBaseLoader.LoadProductor(cedula);
+            XmlDocument xmlDoc = DataBaseLoader.LoadProductorXml(cedula);
 
             XmlNode productos = xmlDoc.SelectSingleNode("/Productor");
             XmlNode nodeProducto = xmlDoc.CreateElement("Producto");
@@ -112,6 +112,16 @@ namespace feria.REST.Controllers.DBManager
 
             productos.AppendChild(nodeProducto);
             xmlDoc.Save(url_productores + cedula.ToString() + "_doc.xml");
+        }
+
+        public static void AddUsuario(Cliente cliente) {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlNode rootNode = xmlDoc.CreateElement("Productor");
+            xmlDoc.AppendChild(rootNode);
+
+            XmlNode nodeProductor = xmlDoc.CreateElement("Informacion");
+            XmlAttribute atributo;
+            xmlDoc.Save(url_clientes + cliente.cedula.ToString() + "_doc.xml");
         }
     }
 }

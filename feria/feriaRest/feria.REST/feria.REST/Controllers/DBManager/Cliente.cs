@@ -7,13 +7,13 @@ namespace feria.REST.Controllers.DBManager
 {
     public class Cliente
     {
-        private int cedula;
-        private String nombre;
-        private String apellido1;
-        private String apellido2;
-        private List<String> direccion;
-        private String fechaNacimiento;
-        private int telefono;
+        public int cedula;
+        public String nombre;
+        public String apellido1;
+        public String apellido2;
+        public List<String> direccion;
+        public String fechaNacimiento;
+        public int telefono;
         private String user;
         private String password;
         

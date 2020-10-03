@@ -4,4 +4,7 @@
   <Direccion Provincia="provincia" Canton="canton" Distrito="distrito" />
   <LugaresDisponibles Lugar0="lugaresN" Lugar1="lugarQ" />
   <Productos />
+  <Producto Nombre="nombreProd2" Categoria="categori2a" Precio="22" ModoVenta="kilo" Disponibles="0" />
+  <Producto Nombre="nombreProd2" Categoria="categori2a" Precio="22" ModoVenta="kilo" Disponibles="0" />
+  <Producto Nombre="nombreProd2" Categoria="categori2a" Precio="22" ModoVenta="kilo" Disponibles="0" />
 </Productor>
