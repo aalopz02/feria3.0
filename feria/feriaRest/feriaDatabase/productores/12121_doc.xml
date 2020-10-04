@@ -1,7 +1,0 @@
-<Productor>
-  <Informacion Cedula="12121" FechaNacimiento="fecha" Telefono="123" Sinpe="456" />
-  <Nombre Nombre="nombre" PrimerApellido="appellido" SegundoApellido="apellido2" />
-  <Direccion Provincia="provincia" Canton="canton" Distrito="distrito" />
-  <LugaresDisponibles Lugar="lugaresN" />
-  <Productos />
-</Productor>

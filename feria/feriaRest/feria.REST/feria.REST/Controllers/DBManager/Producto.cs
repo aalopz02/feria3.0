@@ -10,15 +10,15 @@ namespace feria.REST.Controllers.DBManager
     {
         public String nombre;
         public String categoria;
-        public Image image;
+        public String image;
         public int precio;
         public String modoVenta;
         public int disponible = 0;
         
-        public Producto(String nombre, String categoria, int precio, String modoVenta) {
+        public Producto(String nombre, String categoria, int precio, String modoVenta, String imagen) {
             this.nombre = nombre;
             this.categoria = categoria;
-            //this.image = imagen;
+            this.image = imagen;
             this.precio = precio;
             this.modoVenta = modoVenta;
         }
@@ -27,7 +27,7 @@ namespace feria.REST.Controllers.DBManager
             disponible += cantidad;
         }
 
-        public void ActualizarImagen(Image imagen) {
+        public void ActualizarImagen(String imagen) {
             image = imagen;
         }
 

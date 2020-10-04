@@ -32,8 +32,15 @@ namespace feria.REST.Controllers.DBManager
 
         public Cliente() { }
 
+        public String GetPassWord() 
+        {
+            return this.password;
+        }
 
-
+        public String GetLogIn()
+        {
+            return this.user;
+        }
 
     }
 }

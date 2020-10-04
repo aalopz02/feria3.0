@@ -8,8 +8,8 @@ namespace feria.REST.Controllers.DBManager
 {
     public class DataBaseWriter
     {
-        static String url_productores = "D:\\proyects\\feria\\laFeria\\feria\\feriaRest\\feriaDatabase\\productores\\";
-        static String url_clientes = "D:\\proyects\\feria\\laFeria\\feria\\feriaRest\\feriaDatabase\\clientes\\";
+        static readonly String url_productores = "D:\\proyects\\feria\\laFeria\\feria\\feriaRest\\feriaDatabase\\productores\\";
+        static readonly String url_clientes = "D:\\proyects\\feria\\laFeria\\feria\\feriaRest\\feriaDatabase\\clientes\\";
 
         public static XmlDocument CrearNuevoProductor(Productor productor)
         {
@@ -81,7 +81,7 @@ namespace feria.REST.Controllers.DBManager
         public static void AddProducto(int cedula, Producto producto) {
             XmlDocument xmlDoc = DataBaseLoader.LoadProductorXml(cedula);
 
-            XmlNode productos = xmlDoc.SelectSingleNode("/Productor");
+            XmlNode productos = xmlDoc.LastChild.LastChild;
             XmlNode nodeProducto = xmlDoc.CreateElement("Producto");
 
             XmlAttribute atributo;
@@ -93,11 +93,11 @@ namespace feria.REST.Controllers.DBManager
             atributo = xmlDoc.CreateAttribute("Categoria");
             atributo.Value = producto.categoria;
             nodeProducto.Attributes.Append(atributo);
-            /*
+            
             atributo = xmlDoc.CreateAttribute("Imagen");
-            atributo.Value = producto.categoria;
+            atributo.Value = producto.image;
             nodeProducto.Attributes.Append(atributo);
-            */
+            
             atributo = xmlDoc.CreateAttribute("Precio");
             atributo.Value = producto.precio.ToString();
             nodeProducto.Attributes.Append(atributo);
@@ -116,12 +116,57 @@ namespace feria.REST.Controllers.DBManager
 
         public static void AddUsuario(Cliente cliente) {
             XmlDocument xmlDoc = new XmlDocument();
-            XmlNode rootNode = xmlDoc.CreateElement("Productor");
+            XmlNode rootNode = xmlDoc.CreateElement("Cliente");
             xmlDoc.AppendChild(rootNode);
 
-            XmlNode nodeProductor = xmlDoc.CreateElement("Informacion");
+            XmlNode nodeInfo = xmlDoc.CreateElement("Informacion");
             XmlAttribute atributo;
-            xmlDoc.Save(url_clientes + cliente.cedula.ToString() + "_doc.xml");
+            atributo = xmlDoc.CreateAttribute("Cedula");
+            atributo.Value = cliente.cedula.ToString();
+            nodeInfo.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("FechaNacimiento");
+            atributo.Value = cliente.fechaNacimiento;
+            nodeInfo.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("Telefono");
+            atributo.Value = cliente.telefono.ToString();
+            nodeInfo.Attributes.Append(atributo);
+            rootNode.AppendChild(nodeInfo);
+
+            XmlNode nodeNombre = xmlDoc.CreateElement("Nombre");
+            atributo = xmlDoc.CreateAttribute("Nombre");
+            atributo.Value = cliente.nombre;
+            nodeNombre.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("PrimerApellido");
+            atributo.Value = cliente.apellido1;
+            nodeNombre.Attributes.Append(atributo);
+
+            atributo = xmlDoc.CreateAttribute("SegundoApellido");
+            atributo.Value = cliente.apellido2;
+            nodeNombre.Attributes.Append(atributo);
+            rootNode.AppendChild(nodeNombre);
+
+            XmlNode nodeLogIn = xmlDoc.CreateElement("LogIn");
+            atributo = xmlDoc.CreateAttribute("Usuario");
+            atributo.Value = cliente.GetLogIn();
+            nodeLogIn.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("Password");
+            atributo.Value = cliente.GetPassWord();
+            nodeLogIn.Attributes.Append(atributo);
+            rootNode.AppendChild(nodeLogIn);
+
+            XmlNode nodeDireccion = xmlDoc.CreateElement("Direccion");
+            atributo = xmlDoc.CreateAttribute("Provincia");
+            atributo.Value = cliente.direccion[0];
+            nodeDireccion.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("Canton");
+            atributo.Value = cliente.direccion[1];
+            nodeDireccion.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("Distrito");
+            atributo.Value = cliente.direccion[2];
+            nodeDireccion.Attributes.Append(atributo);
+            rootNode.AppendChild(nodeDireccion);
+            
+            xmlDoc.Save(url_clientes + cliente.GetLogIn() + "_doc.xml");
         }
     }
 }
