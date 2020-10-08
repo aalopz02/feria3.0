@@ -19,7 +19,11 @@ namespace feria.REST
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
 
-            
+            routes.MapRoute(
+                name: "Productor",
+                url: "{controller}/{action}/{id}/{info}",
+                defaults: new { controller = "Productor", action = "NuevoProductor", id = UrlParameter.Optional, info = UrlParameter.Optional }
+            );
         }
     }
 }

@@ -36,9 +36,7 @@ namespace feria.REST.Controllers.DBManager
                                                        nodeDireccion.Attributes["Distrito"].Value};
             List<String> entrega = new List<string>();
             foreach (XmlAttribute lugarEntrega in nodeLugares.Attributes) {
-                int index = 0;
-                entrega.Add(lugarEntrega.ToString());
-                Console.WriteLine(lugarEntrega.ToString());
+                entrega.Add(lugarEntrega.Value.ToString());
             }
             Productor productor = new Productor(cedula,
                                                 nombreFull,
@@ -47,6 +45,7 @@ namespace feria.REST.Controllers.DBManager
                                                 nodeInformacion.Attributes["Telefono"].Value,
                                                 nodeInformacion.Attributes["Sinpe"].Value,
                                                 entrega);
+            productor.SetCatalogo(LoadProductorInventory(cedula));
             return productor;
         }
 
@@ -75,12 +74,12 @@ namespace feria.REST.Controllers.DBManager
             return xmlDoc;
         }
 
-        public static String CheckLogIn(String usuario, String clave) {
+        public static Cliente CheckLogIn(String usuario, String clave) {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(url_clientes + usuario + "_doc.xml");
             if (xmlDoc == null)
             {
-                return "No hay usuario con ese nombre";
+                return null;
             }
             else 
             {
@@ -88,9 +87,9 @@ namespace feria.REST.Controllers.DBManager
                 XmlNode nodeLogIn = nodeList.Item(2);
                 String claveDB = nodeLogIn.Attributes["Password"].Value;
                 if (claveDB.Equals(clave)) {
-                    return "OK";
+                    return LoadCliente(usuario);
                 } else {
-                    return "Clave incorrecta";
+                    return null;
                 }
             }
         }

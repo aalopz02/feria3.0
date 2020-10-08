@@ -9,9 +9,21 @@ namespace feria.REST.Controllers
 {
     public class ClienteController : ApiController
     {
+        // /api/Cliente?user=aalopz
+        public Cliente Get(String user)
+        {
+            return DataBaseLoader.LoadCliente(user);
+        }
+
+        // /api/Cliente?user=aalopz&password=clave
+        public Cliente Get(String user, String password)
+        {
+            return DataBaseLoader.CheckLogIn(user,password);
+        }
+
         //Post
         // /api/Cliente?cedula=12345&info=nombre-appellido-apellido2-provincia-canton-distrito-fecha-8888-aalopz-clave
-        public void Get(int cedula, string info) 
+        public void Post(int cedula, string info) 
         {
             String[] valores = info.Split('-');
             List<String> listaNombre = new List<string>

@@ -30,6 +30,10 @@ namespace feria.REST.Controllers.DBManager
 
         }
 
+        public void SetCatalogo(List<Producto> catalogo) {
+            this.catalogo = catalogo;
+        }
+
         public void AddProducto(Producto producto) {
             DataBaseWriter.AddProducto(cedula,producto);
         }
