@@ -49,12 +49,17 @@ namespace feria.REST.Controllers.DBManager
         public static XmlDocument LoadProductorXml(int cedula)
         {
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(url_productores + cedula.ToString() + "_doc.xml");
-            return xmlDoc;
+            try {
+                xmlDoc.Load(url_productores + cedula.ToString() + "_doc.xml");
+                return xmlDoc;
+            } catch (System.ArgumentException) {
+                return null;
+            }
         }
 
         public static Productor LoadProductor(int cedula) {
             XmlDocument xmlDoc = LoadProductorXml(cedula);
+            if (xmlDoc == null) { return null; }
             XmlNodeList nodeList = xmlDoc.DocumentElement.ChildNodes;
             XmlNode nodeInformacion = nodeList.Item(0);
             XmlNode nodeNombre = nodeList.Item(1);
@@ -81,9 +86,48 @@ namespace feria.REST.Controllers.DBManager
             return productor;
         }
 
+        public static Productor LoadProductor(String path)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(path);
+
+            foreach(Producto producto in LoadProductorInventory(cedula))
+            {
+
+            }
+
+            if (xmlDoc == null) { return null; }
+            XmlNodeList nodeList = xmlDoc.DocumentElement.ChildNodes;
+            XmlNode nodeInformacion = nodeList.Item(0);
+            XmlNode nodeNombre = nodeList.Item(1);
+            XmlNode nodeDireccion = nodeList.Item(2);
+            XmlNode nodeLugares = nodeList.Item(3);
+            List<String> nombreFull = new List<string> {nodeNombre.Attributes["Nombre"].Value,
+                                                        nodeNombre.Attributes["PrimerApellido"].Value,
+                                                        nodeNombre.Attributes["SegundoApellido"].Value};
+            List<String> direccion = new List<string> {nodeDireccion.Attributes["Provincia"].Value,
+                                                       nodeDireccion.Attributes["Canton"].Value,
+                                                       nodeDireccion.Attributes["Distrito"].Value};
+            List<String> entrega = new List<string>();
+            foreach (XmlAttribute lugarEntrega in nodeLugares.Attributes)
+            {
+                entrega.Add(lugarEntrega.Value.ToString());
+            }
+            Productor productor = new Productor(cedula,
+                                                nombreFull,
+                                                direccion,
+                                                nodeInformacion.Attributes["FechaNacimiento"].Value,
+                                                nodeInformacion.Attributes["Telefono"].Value,
+                                                nodeInformacion.Attributes["Sinpe"].Value,
+                                                entrega);
+            
+            return productor;
+        }
+
         public static List<Producto> LoadProductorInventory(int cedula) {
             List<Producto> inventario = new List<Producto>();
             XmlDocument xmlDoc = LoadProductorXml(cedula);
+            if (xmlDoc == null) { return null; }
             XmlNode listProductos = xmlDoc.DocumentElement.LastChild;
             foreach (XmlNode nodeProducto in listProductos.ChildNodes) {
                 Producto producto = new Producto(nodeProducto.Attributes["Nombre"].Value,
@@ -102,8 +146,13 @@ namespace feria.REST.Controllers.DBManager
         public static XmlDocument LoadClienteXml(String cedula)
         {
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(url_clientes + cedula + "_doc.xml");
-            return xmlDoc;
+            try {
+                xmlDoc.Load(url_clientes + cedula + "_doc.xml");
+                return xmlDoc;
+            } catch (System.ArgumentException)
+            {
+                return null;
+            }
         }
 
         public static Cliente CheckLogIn(String usuario, String clave) {
@@ -112,7 +161,7 @@ namespace feria.REST.Controllers.DBManager
             {
                 xmlDoc.Load(url_clientes + usuario + "_doc.xml");
             }
-            catch (System.ArgumentException e) {
+            catch (System.ArgumentException) {
                 return null;
             }
             
@@ -135,6 +184,7 @@ namespace feria.REST.Controllers.DBManager
 
         public static Cliente LoadCliente(String usuario) {
             XmlDocument xmlDoc = LoadClienteXml(usuario);
+            if (xmlDoc == null) { return null; }
             XmlNodeList nodeList = xmlDoc.DocumentElement.ChildNodes;
             XmlNode nodeInformacion = nodeList.Item(0);
             XmlNode nodeNombre = nodeList.Item(1);

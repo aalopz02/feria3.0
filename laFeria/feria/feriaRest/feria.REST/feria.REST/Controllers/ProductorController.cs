@@ -63,6 +63,7 @@ namespace feria.REST.Controllers
         {
             String[] valores = infoproducto.Split('-');
             Productor productor = DataBaseLoader.LoadProductor(id);
+            if (productor==null) { return false; }
             List<Categoria> listaCat = DataBaseLoader.LoadCategorias().ToList();
             foreach (Categoria cat in listaCat)
             {

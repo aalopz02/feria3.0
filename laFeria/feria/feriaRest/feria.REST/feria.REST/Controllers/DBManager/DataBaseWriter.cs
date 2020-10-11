@@ -81,6 +81,46 @@ namespace feria.REST.Controllers.DBManager
 
         }
 
+        internal static bool DeleteCat(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static bool ModifyCat(int id, string value)
+        {
+            XmlDocument catDoc = DataBaseLoader.LoadCategoriasXml();
+            List<Categoria> list = new List<Categoria>();
+            XmlNodeList nodeList = catDoc.DocumentElement.ChildNodes;
+            foreach (XmlNode node in nodeList)
+            {
+                if (id == int.Parse(node.Attributes["Id"].Value))
+                {
+                    list.Add(new Categoria(int.Parse(node.Attributes["Id"].Value), node.Attributes["Nombre"].Value));
+                }
+                else { 
+                    list.Add(new Categoria(int.Parse(node.Attributes["Id"].Value), value)); 
+                }
+                
+            }
+            foreach (string file in Directory.EnumerateFiles(url_productores, "*_doc.xml"))
+            {
+                //DataBaseWriter
+            }
+        }
+
+        internal static bool DeleteCliente(string user)
+        {
+            try
+            {
+                File.Delete(url_clientes + user + "_doc.xml");
+                return true;
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+        }
+
         public static void AddProducto(int cedula, Producto producto)
         {
             XmlDocument xmlDoc = DataBaseLoader.LoadProductorXml(cedula);
@@ -116,6 +156,43 @@ namespace feria.REST.Controllers.DBManager
 
             productos.AppendChild(nodeProducto);
             xmlDoc.Save(url_productores + cedula.ToString() + "_doc.xml");
+        }
+
+        public static void ModifyProducto(String path, Producto producto)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(path);
+            XmlNode productos = xmlDoc.LastChild.LastChild;
+            XmlNode nodeProducto = xmlDoc.CreateElement("Producto");
+
+            XmlAttribute atributo;
+
+            atributo = xmlDoc.CreateAttribute("Nombre");
+            atributo.Value = producto.nombre;
+            nodeProducto.Attributes.Append(atributo);
+
+            atributo = xmlDoc.CreateAttribute("Categoria");
+            atributo.Value = producto.categoria;
+            nodeProducto.Attributes.Append(atributo);
+
+            atributo = xmlDoc.CreateAttribute("Imagen");
+            atributo.Value = producto.image;
+            nodeProducto.Attributes.Append(atributo);
+
+            atributo = xmlDoc.CreateAttribute("Precio");
+            atributo.Value = producto.precio.ToString();
+            nodeProducto.Attributes.Append(atributo);
+
+            atributo = xmlDoc.CreateAttribute("ModoVenta");
+            atributo.Value = producto.modoVenta;
+            nodeProducto.Attributes.Append(atributo);
+
+            atributo = xmlDoc.CreateAttribute("Disponibles");
+            atributo.Value = producto.disponible.ToString();
+            nodeProducto.Attributes.Append(atributo);
+
+            productos.AppendChild(nodeProducto);
+            xmlDoc.Save(path);
         }
 
         internal static bool DeleteProductor(int id)
