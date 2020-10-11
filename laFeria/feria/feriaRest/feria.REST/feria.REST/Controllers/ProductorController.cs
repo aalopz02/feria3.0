@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using System.Web.UI.WebControls;
 //https://www.tutorialsteacher.com/webapi/parameter-binding-in-web-api
 //https://csharp.net-tutorials.com/xml/reading-xml-with-the-xmldocument-class/
 //https://www.tutorialsteacher.com/webapi/test-web-api
@@ -13,7 +14,8 @@ namespace feria.REST.Controllers
     {
         // GET
         //api/Productor?cedula=000
-        public List<Producto> GetProductos(int cedula) {
+        public List<Producto> GetProductos(int cedula)
+        {
             return DataBaseLoader.LoadProductorInventory(cedula);
         }
 
@@ -25,9 +27,13 @@ namespace feria.REST.Controllers
         }
 
         // Post
-         //api/Productor?id=000&info=nombre-appellido-apellido2-provincia-canton-distrito-fecha-1-2-lugaresN-lugarQ
-        public void Post(int id, string info)
+        //api/Productor?id=000&info=nombre-appellido-apellido2-provincia-canton-distrito-fecha-1-2-lugaresN-lugarQ
+        public Boolean Post(int id, string info)
         {
+            if (DataBaseLoader.LoadProductor(id) != null)
+            {
+                return false;
+            }
             String[] valores = info.Split('-');
             List<String> listaNombre = new List<string>
             {
@@ -49,19 +55,35 @@ namespace feria.REST.Controllers
             Productor productor = new Productor(id, listaNombre, listaDireccion, valores[6],
                                                  valores[7], valores[8], listaLugaresEntrega);
             DataBaseWriter.CrearNuevoProductor(productor).ToString();
+            return true;
         }
 
         //api/Productor?id=1223456&infoproducto=nombreProducto-categoria-22-kilo-adadadad
-        public void AddProductor(int id, string infoproducto)
+        public Boolean AddProducto(int id, string infoproducto)
         {
             String[] valores = infoproducto.Split('-');
             Productor productor = DataBaseLoader.LoadProductor(id);
-            Producto producto = new Producto(valores[0], valores[1], int.Parse(valores[2]), valores[3],valores[4]);
-            productor.AddProducto(producto);
+            List<Categoria> listaCat = DataBaseLoader.LoadCategorias().ToList();
+            foreach (Categoria cat in listaCat)
+            {
+                if (cat.nombre == valores[1])
+                {
+                    Producto producto = new Producto(valores[0], valores[1], int.Parse(valores[2]), valores[3], valores[4]);
+                    productor.AddProducto(producto);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         //api/Productor?id=000&info=nombre-appellido-apellido2-provincia-canton-distrito-fecha-1-2-lugaresN-lugarQ
-        public void PATCH(int id, String info) {
+        public Boolean PATCH(int id, String info)
+        {
+            if (DataBaseLoader.LoadProductor(id) == null)
+            {
+                return false;
+            }
             String[] valores = info.Split('-');
             List<String> listaNombre = new List<string>
             {
@@ -83,6 +105,13 @@ namespace feria.REST.Controllers
             Productor productor = new Productor(id, listaNombre, listaDireccion, valores[6],
                                                  valores[7], valores[8], listaLugaresEntrega);
             DataBaseWriter.CrearNuevoProductor(productor).ToString();
+            return true;
+        }
+
+        //api/Productor?id=000
+        public Boolean DELETE(int id)
+        {
+            return DataBaseWriter.DeleteProductor(id);
         }
 
     }

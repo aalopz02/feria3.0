@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Xml;
@@ -115,6 +116,17 @@ namespace feria.REST.Controllers.DBManager
 
             productos.AppendChild(nodeProducto);
             xmlDoc.Save(url_productores + cedula.ToString() + "_doc.xml");
+        }
+
+        internal static bool DeleteProductor(int id)
+        {
+            try {
+                File.Delete(url_productores + id.ToString() + "_doc.xml");
+                return true;
+            } catch (ArgumentException) {
+                return false;
+            }
+            
         }
 
         public static void AddUsuario(Cliente cliente)
