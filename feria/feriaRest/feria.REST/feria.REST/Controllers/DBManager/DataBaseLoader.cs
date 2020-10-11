@@ -11,8 +11,26 @@ namespace feria.REST.Controllers.DBManager
 {
     public class DataBaseLoader
     {
+        static readonly String url_mist = "D:\\proyects\\feria\\laFeria\\feria\\feriaRest\\feriaDatabase\\Mist\\";
         static readonly String url_productores = "D:\\proyects\\feria\\laFeria\\feria\\feriaRest\\feriaDatabase\\productores\\";
         static readonly String url_clientes = "D:\\proyects\\feria\\laFeria\\feria\\feriaRest\\feriaDatabase\\clientes\\";
+
+        internal static IEnumerable<Categoria> LoadCategorias()
+        {
+            IEnumerable<Categoria> list = new List<Categoria>();
+            XmlDocument xmlDoc = LoadProductorXml(cedula);
+            XmlNodeList nodeList = xmlDoc.DocumentElement.ChildNodes;
+
+        }
+
+        internal static Categoria LoadCategoria(int id)
+        {
+            
+        }
+
+        public static XmlDocument LoadCategoriasXml() { 
+        
+        }
 
         public static XmlDocument LoadProductorXml(int cedula)
         {

@@ -1,6 +1,0 @@
-<Cliente>
-  <Informacion Cedula="12345" FechaNacimiento="fecha" Telefono="8888" />
-  <Nombre Nombre="nombre" PrimerApellido="appellido" SegundoApellido="apellido2" />
-  <LogIn Usuario="aalassaaspz" Password="clave" />
-  <Direccion Provincia="provincia" Canton="canton" Distrito="distrito" />
-</Cliente>

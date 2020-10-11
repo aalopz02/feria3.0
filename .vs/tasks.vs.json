@@ -1,0 +1,10 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskLabel": "task-package",
+      "appliesTo": "feria/feriaRest/feria.REST/feria.REST/web-app/package.json",
+      "type": "launch"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\feria",
+    "\\feria\\feriaRest",
+    "\\feria\\feriaRest\\feria.REST",
+    "\\feria\\feriaRest\\feria.REST\\feria.REST",
+    "\\feria\\feriaRest\\feria.REST\\feria.REST\\Controllers",
+    "\\feria\\feriaRest\\feria.REST\\feria.REST\\Controllers\\DBManager",
+    "\\feria\\feriaRest\\feria.REST\\feria.REST\\web-app"
+  ],
+  "SelectedNode": "\\feria\\feriaRest\\feria.REST\\feria.REST\\web-app\\package.json",
+  "PreviewInSolutionExplorer": false
+}

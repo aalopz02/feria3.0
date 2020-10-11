@@ -10,6 +10,7 @@ namespace feria.REST.Controllers.DBManager
     {
         static readonly String url_productores = "D:\\proyects\\feria\\laFeria\\feria\\feriaRest\\feriaDatabase\\productores\\";
         static readonly String url_clientes = "D:\\proyects\\feria\\laFeria\\feria\\feriaRest\\feriaDatabase\\clientes\\";
+        static readonly String url_mist = "D:\\proyects\\feria\\laFeria\\feria\\feriaRest\\feriaDatabase\\Mist\\";
 
         public static XmlDocument CrearNuevoProductor(Productor productor)
         {
@@ -60,7 +61,8 @@ namespace feria.REST.Controllers.DBManager
 
             nodeProductor = xmlDoc.CreateElement("LugaresDisponibles");
             int indice = 0;
-            foreach (String lugar in productor.direccionesEntrega) { 
+            foreach (String lugar in productor.direccionesEntrega)
+            {
                 atributo = xmlDoc.CreateAttribute("Lugar" + indice.ToString());
                 atributo.Value = lugar;
                 nodeProductor.Attributes.Append(atributo);
@@ -69,7 +71,7 @@ namespace feria.REST.Controllers.DBManager
             rootNode.AppendChild(nodeProductor);
 
             nodeProductor = xmlDoc.CreateElement("Productos");
-            
+
             rootNode.AppendChild(nodeProductor);
 
             xmlDoc.Save(url_productores + productor.cedula.ToString() + "_doc.xml");
@@ -78,7 +80,8 @@ namespace feria.REST.Controllers.DBManager
 
         }
 
-        public static void AddProducto(int cedula, Producto producto) {
+        public static void AddProducto(int cedula, Producto producto)
+        {
             XmlDocument xmlDoc = DataBaseLoader.LoadProductorXml(cedula);
 
             XmlNode productos = xmlDoc.LastChild.LastChild;
@@ -93,11 +96,11 @@ namespace feria.REST.Controllers.DBManager
             atributo = xmlDoc.CreateAttribute("Categoria");
             atributo.Value = producto.categoria;
             nodeProducto.Attributes.Append(atributo);
-            
+
             atributo = xmlDoc.CreateAttribute("Imagen");
             atributo.Value = producto.image;
             nodeProducto.Attributes.Append(atributo);
-            
+
             atributo = xmlDoc.CreateAttribute("Precio");
             atributo.Value = producto.precio.ToString();
             nodeProducto.Attributes.Append(atributo);
@@ -114,7 +117,8 @@ namespace feria.REST.Controllers.DBManager
             xmlDoc.Save(url_productores + cedula.ToString() + "_doc.xml");
         }
 
-        public static void AddUsuario(Cliente cliente) {
+        public static void AddUsuario(Cliente cliente)
+        {
             XmlDocument xmlDoc = new XmlDocument();
             XmlNode rootNode = xmlDoc.CreateElement("Cliente");
             xmlDoc.AppendChild(rootNode);
@@ -165,8 +169,28 @@ namespace feria.REST.Controllers.DBManager
             atributo.Value = cliente.direccion[2];
             nodeDireccion.Attributes.Append(atributo);
             rootNode.AppendChild(nodeDireccion);
-            
+
             xmlDoc.Save(url_clientes + cliente.GetLogIn() + "_doc.xml");
+        }
+
+        public static void AddCategoria(Categoria categoria)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+
+            XmlNode nodo = xmlDoc.LastChild.LastChild;
+            XmlNode nodeCategoria = xmlDoc.CreateElement("Categoria");
+
+            XmlAttribute atributo;
+
+            atributo = xmlDoc.CreateAttribute("Id");
+            atributo.Value = categoria.id.ToString();
+            nodeCategoria.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("Nombre");
+            atributo.Value = categoria.nombre;
+            nodeCategoria.Attributes.Append(atributo);
+
+            nodo.AppendChild(nodeCategoria);
+            xmlDoc.Save(url_mist + "Categorias_doc.xml");
         }
     }
 }
