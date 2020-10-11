@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div style="    background: url(https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F37%2F2015%2F06%2F16012245%2Ffruits-vegetables-legumes-blue-background-8a6d17df.jpg)" class="page-holder bg-cover">
+
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Feria En Línea</a>
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" [routerLink]="['admin']">Administración</a>
+      </li>
+      <li>
+        <a href="#"><i class="fa fa-user-circle-o"></i> Solicitudes</a>
+      </li>
+
+    </ul>
+  </nav>
+
+  <div class="container-sm pt-3">
+    <div class="jumbotron">
+      <h1 class="display-5" align="center">Gestión de productores</h1>
+      <p align="center">Los siguientes enlaces permiten añadir, actualizar o eliminar a un productor del sistema</p>
+      <p align="center">
+        <a class="btn btn-outline-success mr-4" [routerLink]="['/admin/p-register']">Añadir</a>
+        <a class="btn btn-outline-info" [routerLink]="['/admin/p-update']" role="button">Actualizar</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="container-sm pt-3">
+    <div class="jumbotron">
+      <h1 class="display-5" align="center">Gestión de categorias de productos</h1>
+      <p align="center">Los siguientes enlaces permiten añadir, actualizar o eliminar categorias de los productos</p>
+      <p align="center">
+        <a class="btn btn-outline-success mr-4" href="#" role="button">Añadir</a>
+        <a class="btn btn-outline-info" href="#" role="button">Actualizar</a>
+        <a class="btn btn-outline-danger ml-4" href="#" role="button">Eliminar</a>
+      </p>
+    </div>
+  </div>
+ </div>

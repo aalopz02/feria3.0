@@ -1,0 +1,65 @@
+<div style="    background: url(https://hdwallsource.com/img/2014/10/blurred-wallpaper-36377-37205-hd-wallpapers.jpg)" class="page-holder bg-cover">
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Feria En Línea</a>
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" [routerLink]="['/admin']">Administración</a>
+      </li>
+
+    </ul>
+  </nav>
+
+  <h1 class="titleregister">Registro de Productor</h1>
+
+  <form [formGroup]="growerform" (submit)="onSubmit(growerform.value)">
+    <div class="form-row pt-3 mx-5">
+      <div class="col-md-6 mb-3">
+        <label class="labelfont" for="name">Nombre</label>
+        <input type="text" class="form-control" formControlName="name" id="name" #name required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="labelfont" for="lastname1">Primer Apellido</label>
+        <input type="text" class="form-control" formControlName="lastname1" id="lastname1" #lastname1 required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="labelfont" for="lastname2">Segundo Apellido</label>
+        <input type="text" class="form-control" formControlName="lastname2" id="lastname2" #lastname2 required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="labelfont" for="id">Número de cedula</label>
+        <input type="text" class="form-control" formControlName="id" id="id" #id required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="labelfont" for="phoneNumber">Número de telefono</label>
+        <input type="text" class="form-control" formControlName="phoneNumber" id="phoneNumber" #phoneNumber required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="labelfont" for="simpenumber">Número de SIMPE móvil</label>
+        <input type="tel" class="form-control" formControlName="simpenumber" id="simpenumber" #simpenumber required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="labelfont" for="birthday">Fecha de naciminento</label>
+        <input type="date" class="form-control" formControlName="birthday" id="birthday" #birthday required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="labelfont" for="provincia">Provincia</label>
+        <input type="text" class="form-control" formControlName="provincia" id="provincia" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="labelfont" for="canton">Cantón</label>
+        <input type="text" class="form-control" formControlName="canton" id="canton" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="labelfont" for="distrito">Distrito</label>
+        <input type="text" class="form-control" formControlName="distrito" id="distrito" required>
+      </div>
+      <div class="mb-3 w-50">
+        <label class="labelfont" for="deliveradress">Lugar de entrega de los pedidos</label>
+        <textarea class="form-control" formControlName="deliveradress" id="deliveradress" #deliveradress required></textarea>
+      </div>
+    </div>
+    <button class="btn btn-primary ml-5 mb-5" type="submit">Registrarse</button>
+  </form>
+</div>
+

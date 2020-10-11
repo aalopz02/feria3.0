@@ -1,0 +1,79 @@
+
+.panel h2 {
+  color: #444444;
+  font-size: 24px;
+  margin: 0px 0 20px 0;
+}
+
+.panel p {
+  color: #777777;
+  font-size: 14px;
+  margin-bottom: 60px;
+  line-height: 24px;
+  
+}
+
+.update-form .form-control {
+  background: #f7f7f7 none repeat scroll 0 0;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  font-size: 14px;
+  height: 50px;
+  line-height: 50px;
+}
+
+.main-div {
+  background: #ffffff none repeat scroll 0 0;
+  border-radius: 2px;
+  margin: 0px auto 0px;
+  max-width: 42%;
+  padding: 50px 70px 70px 71px;
+  height: 90vh;
+  vertical-align: middle;
+}
+
+.update-form .form-group {
+  margin-bottom: 10px;
+}
+
+.update-form {
+  text-align: center;
+  
+}
+
+
+.update-form .btn.btn-primary {
+  background: #f0ad4e none repeat scroll 0 0;
+  border-color: #f0ad4e;
+  color: #ffffff;
+  font-size: 14px;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  padding: 0;
+  margin-bottom: 15px;
+}
+
+
+
+.botto-text {
+  color: #ffffff;
+  font-size: 14px;
+  margin: auto;
+}
+
+.update-form .btn.btn-primary.reset {
+  background: #ff9900 none repeat scroll 0 0;
+  
+}
+
+.back {
+  text-align: left;
+  margin-top: 10px;
+}
+
+  .back a {
+    color: #444444;
+    font-size: 13px;
+    text-decoration: none;
+  }
