@@ -25,11 +25,19 @@ namespace feria.REST.Controllers.DBManager
 
         internal static Categoria LoadCategoria(int id)
         {
-            
+            XmlDocument xmlDoc = LoadCategoriasXml();
+            XmlNodeList nodeList = xmlDoc.DocumentElement.ChildNodes;
+            foreach (XmlNode node in nodeList) {
+                if () {
+                
+                }
+            }
         }
 
-        public static XmlDocument LoadCategoriasXml() { 
-        
+        public static XmlDocument LoadCategoriasXml() {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(url_productores + "Categorias_doc.xml");
+            return xmlDoc;
         }
 
         public static XmlDocument LoadProductorXml(int cedula)
