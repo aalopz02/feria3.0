@@ -8,9 +8,9 @@ namespace feria.REST.Controllers.DBManager
 {
     public class DataBaseWriter
     {
-        static readonly String url_productores = "D:\\proyects\\feria\\laFeria\\feria\\feriaRest\\feriaDatabase\\productores\\";
-        static readonly String url_clientes = "D:\\proyects\\feria\\laFeria\\feria\\feriaRest\\feriaDatabase\\clientes\\";
-        static readonly String url_mist = "D:\\proyects\\feria\\laFeria\\feria\\feriaRest\\feriaDatabase\\Mist\\";
+        static readonly String url_productores = "D:\\proyects\\feria\\feriaDatabase\\productores\\";
+        static readonly String url_clientes = "D:\\proyects\\feria\\feriaDatabase\\clientes\\";
+        static readonly String url_mist = "D:\\proyects\\feria\\feriaDatabase\\Mist\\";
 
         public static XmlDocument CrearNuevoProductor(Productor productor)
         {
@@ -175,21 +175,23 @@ namespace feria.REST.Controllers.DBManager
 
         public static void AddCategoria(Categoria categoria)
         {
-            XmlDocument xmlDoc = new XmlDocument();
+            XmlDocument xmlDoc = DataBaseLoader.LoadCategoriasXml();
 
-            XmlNode nodo = xmlDoc.LastChild.LastChild;
+            XmlNode rootNode = xmlDoc.ChildNodes[0];
+            xmlDoc.AppendChild(rootNode);
+
             XmlNode nodeCategoria = xmlDoc.CreateElement("Categoria");
-
             XmlAttribute atributo;
-
             atributo = xmlDoc.CreateAttribute("Id");
             atributo.Value = categoria.id.ToString();
             nodeCategoria.Attributes.Append(atributo);
+
             atributo = xmlDoc.CreateAttribute("Nombre");
             atributo.Value = categoria.nombre;
             nodeCategoria.Attributes.Append(atributo);
 
-            nodo.AppendChild(nodeCategoria);
+            rootNode.AppendChild(nodeCategoria);
+
             xmlDoc.Save(url_mist + "Categorias_doc.xml");
         }
     }

@@ -6,21 +6,26 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 
 namespace feria.REST.Controllers.DBManager
 {
     public class DataBaseLoader
-    {
-        static readonly String url_mist = "D:\\proyects\\feria\\laFeria\\feria\\feriaRest\\feriaDatabase\\Mist\\";
-        static readonly String url_productores = "D:\\proyects\\feria\\laFeria\\feria\\feriaRest\\feriaDatabase\\productores\\";
-        static readonly String url_clientes = "D:\\proyects\\feria\\laFeria\\feria\\feriaRest\\feriaDatabase\\clientes\\";
+    {   
+        static readonly String url_mist = "D:\\proyects\\feria\\feriaDatabase\\Mist\\";
+        static readonly String url_productores = "D:\\proyects\\feria\\feriaDatabase\\productores\\";
+        static readonly String url_clientes = "D:\\proyects\\feria\\feriaDatabase\\clientes\\";
 
         internal static IEnumerable<Categoria> LoadCategorias()
         {
-            IEnumerable<Categoria> list = new List<Categoria>();
-            XmlDocument xmlDoc = LoadProductorXml(cedula);
+            List<Categoria> list = new List<Categoria>();
+            XmlDocument xmlDoc = LoadCategoriasXml();
             XmlNodeList nodeList = xmlDoc.DocumentElement.ChildNodes;
-
+            foreach (XmlNode node in nodeList)
+            {
+                list.Add(new Categoria(int.Parse(node.Attributes["Id"].Value), node.Attributes["Nombre"].Value));
+            }
+            return list;
         }
 
         internal static Categoria LoadCategoria(int id)
@@ -28,15 +33,16 @@ namespace feria.REST.Controllers.DBManager
             XmlDocument xmlDoc = LoadCategoriasXml();
             XmlNodeList nodeList = xmlDoc.DocumentElement.ChildNodes;
             foreach (XmlNode node in nodeList) {
-                if () {
-                
+                if (node.Attributes["Id"].Value == id.ToString()) {
+                    return new Categoria(int.Parse(node.Attributes["Id"].Value), node.Attributes["Nombre"].Value);
                 }
             }
+            return null;
         }
 
         public static XmlDocument LoadCategoriasXml() {
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(url_productores + "Categorias_doc.xml");
+            xmlDoc.Load(url_mist + "Categorias_doc.xml");
             return xmlDoc;
         }
 
@@ -102,7 +108,14 @@ namespace feria.REST.Controllers.DBManager
 
         public static Cliente CheckLogIn(String usuario, String clave) {
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(url_clientes + usuario + "_doc.xml");
+            try
+            {
+                xmlDoc.Load(url_clientes + usuario + "_doc.xml");
+            }
+            catch (System.ArgumentException e) {
+                return null;
+            }
+            
             if (xmlDoc == null)
             {
                 return null;

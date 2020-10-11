@@ -16,17 +16,21 @@ namespace feria.REST.Controllers
             return DataBaseLoader.LoadCategorias();
         }
 
-        // GET api/<controller>/5
+        // GET api/<controller>?id=5
         public Categoria Get(int id)
         {
             return DataBaseLoader.LoadCategoria(id);
         }
 
         // POST api/<controller>?id=000&nombre=papapapa
-        public void Post(int id, string nombre)
+        public Boolean Post(int id, string nombre)
         {
+            if (DataBaseLoader.LoadCategoria(id) != null) {
+                return false;
+            }
             Categoria categoria = new Categoria(id,nombre);
             DataBaseWriter.AddCategoria(categoria);
+            return true;
         }
 
         // PUT api/<controller>/5
@@ -35,9 +39,10 @@ namespace feria.REST.Controllers
             
         }
 
-        // DELETE api/<controller>/5
+        // DELETE api/<controller>?id=5
         public void Delete(int id)
         {
+
         }
     }
 }
