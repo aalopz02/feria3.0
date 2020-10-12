@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Antlr.Runtime.Misc;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -83,7 +84,36 @@ namespace feria.REST.Controllers.DBManager
 
         internal static bool DeleteCat(int id)
         {
-            throw new NotImplementedException();
+            XmlDocument catDoc = DataBaseLoader.LoadCategoriasXml();
+            List<Categoria> list = new List<Categoria>();
+            XmlNodeList nodeList = catDoc.DocumentElement.ChildNodes;
+            String anterior = "";
+            foreach (XmlNode node in nodeList)
+            {
+                if (id != int.Parse(node.Attributes["Id"].Value))
+                {
+                    list.Add(new Categoria(int.Parse(node.Attributes["Id"].Value), node.Attributes["Nombre"].Value));
+                }
+                else {
+                    anterior = node.Attributes["Nombre"].Value;
+                }
+            }
+            foreach (string file in Directory.EnumerateFiles(url_productores, "*_doc.xml"))
+            {
+                Productor productor = DataBaseLoader.LoadProductor(file);
+                foreach (Producto producto in productor.catalogo)
+                {
+                    if (producto.categoria == anterior)
+                    {
+                        return false;
+                    }
+                }
+            }
+            File.Delete(url_mist + "Categorias_doc.xml");
+            foreach (Categoria cat in list) {
+                AddCategoria(cat);
+            }
+            return true;
         }
 
         internal static bool ModifyCat(int id, string value)
@@ -91,21 +121,35 @@ namespace feria.REST.Controllers.DBManager
             XmlDocument catDoc = DataBaseLoader.LoadCategoriasXml();
             List<Categoria> list = new List<Categoria>();
             XmlNodeList nodeList = catDoc.DocumentElement.ChildNodes;
+            String anterior = "";
+            File.Delete(url_mist + "Categorias_doc.xml");
+            int index = 0;
             foreach (XmlNode node in nodeList)
             {
                 if (id == int.Parse(node.Attributes["Id"].Value))
                 {
+                    anterior = node.Attributes["Nombre"].Value;
                     list.Add(new Categoria(int.Parse(node.Attributes["Id"].Value), node.Attributes["Nombre"].Value));
                 }
                 else { 
                     list.Add(new Categoria(int.Parse(node.Attributes["Id"].Value), value)); 
                 }
-                
+                AddCategoria(list[index]);
+                index++;
             }
             foreach (string file in Directory.EnumerateFiles(url_productores, "*_doc.xml"))
             {
-                //DataBaseWriter
+                Productor productor = DataBaseLoader.LoadProductor(file);
+                CrearNuevoProductor(productor);
+                foreach (Producto producto in productor.catalogo) {
+                    if (producto.categoria == anterior) {
+                        producto.categoria = value;
+                    }
+                    AddProducto(productor.cedula,producto);
+                }
             }
+            
+            return true;
         }
 
         internal static bool DeleteCliente(string user)

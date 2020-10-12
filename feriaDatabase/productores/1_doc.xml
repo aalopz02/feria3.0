@@ -1,0 +1,10 @@
+<Productor>
+  <Informacion Cedula="1" FechaNacimiento="fecha" Telefono="1" Sinpe="2" />
+  <Nombre Nombre="nombre" PrimerApellido="appellido" SegundoApellido="apellido2" />
+  <Direccion Provincia="provincia" Canton="canton" Distrito="distrito" />
+  <LugaresDisponibles Lugar0="lugaresN" />
+  <Productos>
+    <Producto Nombre="nombreProducto" Categoria="carne" Imagen="adadadad" Precio="22" ModoVenta="kilo" Disponibles="0" />
+    <Producto Nombre="nombreProducto" Categoria="algo" Imagen="adadadad" Precio="22" ModoVenta="kilo" Disponibles="0" />
+  </Productos>
+</Productor>

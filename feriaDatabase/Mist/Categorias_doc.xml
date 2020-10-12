@@ -1,4 +1,4 @@
-<Categorias>
-  <Categoria Id="501" Nombre="papapa" />
-  <Categoria Id="509" Nombre="asdadaspa" />
-</Categorias>
+<Categoria>
+  <Categoria Id="12" Nombre="lacteo" />
+  <Categoria Id="10" Nombre="algo" />
+</Categoria>

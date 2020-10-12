@@ -7,6 +7,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
+using System.IO;
 
 namespace feria.REST.Controllers.DBManager
 {
@@ -42,7 +43,17 @@ namespace feria.REST.Controllers.DBManager
 
         public static XmlDocument LoadCategoriasXml() {
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(url_mist + "Categorias_doc.xml");
+            try {
+                xmlDoc.Load(url_mist + "Categorias_doc.xml");
+            } catch (FileNotFoundException) {
+                byte[] info = new UTF8Encoding(true).GetBytes("<Categoria></Categoria>");
+                using (var myFile = File.Create(url_mist + "Categorias_doc.xml"))
+                {
+                    myFile.Write(info, 0, info.Length);
+                }
+                xmlDoc.Load(url_mist + "Categorias_doc.xml");
+            }
+            
             return xmlDoc;
         }
 
@@ -52,7 +63,7 @@ namespace feria.REST.Controllers.DBManager
             try {
                 xmlDoc.Load(url_productores + cedula.ToString() + "_doc.xml");
                 return xmlDoc;
-            } catch (System.ArgumentException) {
+            } catch (FileNotFoundException) {
                 return null;
             }
         }
@@ -82,7 +93,21 @@ namespace feria.REST.Controllers.DBManager
                                                 nodeInformacion.Attributes["Telefono"].Value,
                                                 nodeInformacion.Attributes["Sinpe"].Value,
                                                 entrega);
-            productor.SetCatalogo(LoadProductorInventory(cedula));
+            List<Producto> inventario = new List<Producto>();
+            XmlNode listProductos = xmlDoc.DocumentElement.LastChild;
+            foreach (XmlNode nodeProducto in listProductos.ChildNodes)
+            {
+                Producto producto = new Producto(nodeProducto.Attributes["Nombre"].Value,
+                                                 nodeProducto.Attributes["Categoria"].Value,
+                                                 int.Parse(nodeProducto.Attributes["Precio"].Value),
+                                                 nodeProducto.Attributes["ModoVenta"].Value,
+                                                 nodeProducto.Attributes["Imagen"].Value)
+                {
+                    disponible = int.Parse(nodeProducto.Attributes["Disponibles"].Value)
+                };
+                inventario.Add(producto);
+            }
+            productor.SetCatalogo(inventario);
             return productor;
         }
 
@@ -90,11 +115,6 @@ namespace feria.REST.Controllers.DBManager
         {
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(path);
-
-            foreach(Producto producto in LoadProductorInventory(cedula))
-            {
-
-            }
 
             if (xmlDoc == null) { return null; }
             XmlNodeList nodeList = xmlDoc.DocumentElement.ChildNodes;
@@ -113,14 +133,29 @@ namespace feria.REST.Controllers.DBManager
             {
                 entrega.Add(lugarEntrega.Value.ToString());
             }
-            Productor productor = new Productor(cedula,
+            Productor productor = new Productor(int.Parse(path.Replace(url_productores,"").Replace("_doc.xml","")),
                                                 nombreFull,
                                                 direccion,
                                                 nodeInformacion.Attributes["FechaNacimiento"].Value,
                                                 nodeInformacion.Attributes["Telefono"].Value,
                                                 nodeInformacion.Attributes["Sinpe"].Value,
                                                 entrega);
-            
+            List<Producto> inventario = new List<Producto>();
+            XmlNode listProductos = xmlDoc.DocumentElement.LastChild;
+            foreach (XmlNode nodeProducto in listProductos.ChildNodes)
+            {
+                Producto producto = new Producto(nodeProducto.Attributes["Nombre"].Value,
+                                                 nodeProducto.Attributes["Categoria"].Value,
+                                                 int.Parse(nodeProducto.Attributes["Precio"].Value),
+                                                 nodeProducto.Attributes["ModoVenta"].Value,
+                                                 nodeProducto.Attributes["Imagen"].Value)
+                {
+                    disponible = int.Parse(nodeProducto.Attributes["Disponibles"].Value)
+                };
+                inventario.Add(producto);
+            }
+            productor.SetCatalogo(inventario);
+
             return productor;
         }
 
@@ -149,7 +184,7 @@ namespace feria.REST.Controllers.DBManager
             try {
                 xmlDoc.Load(url_clientes + cedula + "_doc.xml");
                 return xmlDoc;
-            } catch (System.ArgumentException)
+            } catch (FileNotFoundException)
             {
                 return null;
             }
@@ -161,7 +196,7 @@ namespace feria.REST.Controllers.DBManager
             {
                 xmlDoc.Load(url_clientes + usuario + "_doc.xml");
             }
-            catch (System.ArgumentException) {
+            catch (FileNotFoundException) {
                 return null;
             }
             
