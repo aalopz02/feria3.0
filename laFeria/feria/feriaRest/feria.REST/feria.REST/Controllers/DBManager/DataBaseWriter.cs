@@ -15,6 +15,23 @@ namespace feria.REST.Controllers.DBManager
         static readonly String url_mist = "D:\\proyects\\feria\\feriaDatabase\\Mist\\";
         static readonly String url_solicitud = "D:\\proyects\\feria\\feriaDatabase\\Mist\\Solicitudes\\";
 
+        public static void AddUserNameToList(String usuario)
+        {
+            XmlDocument xmlDoc = DataBaseLoader.LoadClientesListXml();
+
+            XmlNode rootNode = xmlDoc.ChildNodes[0];
+            xmlDoc.AppendChild(rootNode);
+
+            XmlNode nodeUser = xmlDoc.CreateElement("Usuario");
+            XmlAttribute atributo;
+            atributo = xmlDoc.CreateAttribute("User");
+            atributo.Value = usuario;
+            nodeUser.Attributes.Append(atributo);
+            rootNode.AppendChild(nodeUser);
+
+            xmlDoc.Save(url_mist + "ClientesList_doc.xml");
+        }
+
         public static void AddCedulaProductor(int cedula) {
             XmlDocument xmlDoc = DataBaseLoader.LoadProductoresList();
 
@@ -198,6 +215,13 @@ namespace feria.REST.Controllers.DBManager
             try
             {
                 File.Delete(url_clientes + user + "_doc.xml");
+                List<String> listUsers = DataBaseLoader.GetAllUsers().ToList();
+                listUsers.Remove(user);
+                File.Delete(url_mist + "ClientesList_doc.xml");
+                foreach (String userName in listUsers)
+                {
+                    AddUserNameToList(userName);
+                }
                 return true;
             }
             catch (ArgumentException)
@@ -286,7 +310,7 @@ namespace feria.REST.Controllers.DBManager
                 File.Delete(url_productores + id.ToString() + "_doc.xml");
                 List<int> listCedulas = DataBaseLoader.GetAllCedulasProductores().ToList();
                 listCedulas.Remove(id);
-                File.Delete(url_mist + "ProductoresList_doc_doc.xml");
+                File.Delete(url_mist + "ProductoresList_doc.xml");
                 foreach (int cedula in listCedulas) {
                     AddCedulaProductor(cedula);
                 }
@@ -459,4 +483,5 @@ namespace feria.REST.Controllers.DBManager
         }
 
     }
+
 }

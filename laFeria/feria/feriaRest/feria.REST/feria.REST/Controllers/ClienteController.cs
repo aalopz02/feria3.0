@@ -31,10 +31,14 @@ namespace feria.REST.Controllers
         }
 
         //Post
-        // /api/Cliente?cedula=12345&info=nombre-appellido-apellido2-provincia-canton-distrito-fecha-8888-aalopz-clave
+        // https://localhost:44303/api/Cliente?cedula=12345&info=nombre-appellido-apellido2-provincia-canton-distrito-fecha-8888-aalopz-clave
         public Boolean Post(int cedula, string info) 
         {
             String[] valores = info.Split('-');
+            if (DataBaseLoader.GetAllUsers().Contains(valores[8]))
+            {
+                return false;
+            }
             List<String> listaNombre = new List<string>
             {
                 valores[0],
@@ -49,12 +53,13 @@ namespace feria.REST.Controllers
             };
             Cliente cliente = new Cliente(cedula,listaNombre,listaDireccion,valores[6],int.Parse(valores[7]),valores[8],valores[9]);
             DataBaseWriter.AddUsuario(cliente);
+            DataBaseWriter.AddUserNameToList(cliente.GetLogIn());
             return true;
         }
 
         public Boolean PUT(int cedula, string info) {
             String[] valores = info.Split('-');
-            if (DataBaseLoader.LoadClienteXml(valores[8]) == null)
+            if (!DataBaseLoader.GetAllUsers().Contains(valores[8]))
             {
                 return false;
             }

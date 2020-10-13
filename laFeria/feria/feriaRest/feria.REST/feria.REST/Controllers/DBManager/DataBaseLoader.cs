@@ -57,7 +57,36 @@ namespace feria.REST.Controllers.DBManager
             return list;
         }
 
+        public static XmlDocument LoadClientesListXml()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            try
+            {
+                xmlDoc.Load(url_mist + "ClientesList_doc.xml");
+            }
+            catch (FileNotFoundException)
+            {
+                byte[] info = new UTF8Encoding(true).GetBytes("<Clientes></Clientes>");
+                using (var myFile = File.Create(url_mist + "ClientesList_doc.xml"))
+                {
+                    myFile.Write(info, 0, info.Length);
+                }
+                xmlDoc.Load(url_mist + "ClientesList_doc.xml");
+            }
+            return xmlDoc;
+        }
 
+        public static IEnumerable<String> GetAllUsers()
+        {
+            List<String> list = new List<String>();
+            XmlDocument xmlDoc = LoadClientesListXml();
+            XmlNodeList nodeList = xmlDoc.DocumentElement.ChildNodes;
+            foreach (XmlNode node in nodeList)
+            {
+                list.Add(node.Attributes["User"].Value);
+            }
+            return list;
+        }
         internal static IEnumerable<Solicitud> LoadSolicitudes()
         {
             List<Solicitud> list = new List<Solicitud>();
