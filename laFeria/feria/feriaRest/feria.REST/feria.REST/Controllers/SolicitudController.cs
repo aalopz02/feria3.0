@@ -25,9 +25,12 @@ namespace feria.REST.Controllers
         }
 
         // POST 
-        //api/Soliciud?id=000&info=nombre-appellido-apellido2-provincia-canton-distrito-fecha-1-2-lugaresN-lugarQ
+        //api/Solicitud?id=000&info=nombre-appellido-apellido2-provincia-canton-distrito-fecha-1-2-lugaresN-lugarQ
         public bool Post(int id, string info)
         {
+            if (DataBaseLoader.GetAllCedulasProductores().Contains(id)) {
+                return false;
+            }
             int numeroSolicitud = DataBaseLoader.LoadLastSolicitudId(id)+1;
             if (numeroSolicitud == -1) {return false;}
             if (DataBaseLoader.LoadProductor(id) != null)

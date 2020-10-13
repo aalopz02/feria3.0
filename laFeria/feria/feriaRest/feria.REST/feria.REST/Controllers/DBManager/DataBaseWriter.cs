@@ -15,6 +15,22 @@ namespace feria.REST.Controllers.DBManager
         static readonly String url_mist = "D:\\proyects\\feria\\feriaDatabase\\Mist\\";
         static readonly String url_solicitud = "D:\\proyects\\feria\\feriaDatabase\\Mist\\Solicitudes\\";
 
+        public static void AddCedulaProductor(int cedula) {
+            XmlDocument xmlDoc = DataBaseLoader.LoadProductoresList();
+
+            XmlNode rootNode = xmlDoc.ChildNodes[0];
+            xmlDoc.AppendChild(rootNode);
+
+            XmlNode nodeProductor = xmlDoc.CreateElement("Productor");
+            XmlAttribute atributo;
+            atributo = xmlDoc.CreateAttribute("Cedula");
+            atributo.Value = cedula.ToString();
+            nodeProductor.Attributes.Append(atributo);
+            rootNode.AppendChild(nodeProductor);
+
+            xmlDoc.Save(url_mist + "ProductoresList_doc.xml");
+        }
+
         public static XmlDocument CrearNuevoProductor(Productor productor)
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -268,6 +284,12 @@ namespace feria.REST.Controllers.DBManager
         {
             try {
                 File.Delete(url_productores + id.ToString() + "_doc.xml");
+                List<int> listCedulas = DataBaseLoader.GetAllCedulasProductores().ToList();
+                listCedulas.Remove(id);
+                File.Delete(url_mist + "ProductoresList_doc_doc.xml");
+                foreach (int cedula in listCedulas) {
+                    AddCedulaProductor(cedula);
+                }
                 return true;
             } catch (ArgumentException) {
                 return false;

@@ -13,6 +13,26 @@ namespace feria.REST.Controllers
     public class ProductorController : ApiController
     {
         // GET
+        //api/Productor?distrito=nombre
+        public IEnumerable<Productor> GetByDistrito(String distrito) {
+            IEnumerable<Productor> allProductores = Get();
+            List<Productor> selectedProductores = new List<Productor>();
+            foreach (Productor productor in allProductores) {
+                if (productor.direccion[2].Equals(distrito)) {
+                    selectedProductores.Add(productor);
+                }
+            }
+            return selectedProductores;
+         }
+
+        // GET
+        //api/Productor?
+        public IEnumerable<Productor> Get()
+        {
+            return DataBaseLoader.LoadAllProductores();
+        }
+
+        // GET
         //api/Productor?cedula=000
         public List<Producto> GetProductos(int cedula)
         {
@@ -51,6 +71,7 @@ namespace feria.REST.Controllers
             Productor productor = new Productor(id, listaNombre, listaDireccion, valores[6],
                                                  valores[7], valores[8], listaLugaresEntrega);
             DataBaseWriter.CrearNuevoProductor(productor).ToString();
+            DataBaseWriter.AddCedulaProductor(id);
             return true;
         }
 

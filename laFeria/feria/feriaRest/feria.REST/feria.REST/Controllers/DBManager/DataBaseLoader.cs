@@ -18,6 +18,46 @@ namespace feria.REST.Controllers.DBManager
         static readonly String url_solicitud = "D:\\proyects\\feria\\feriaDatabase\\Mist\\Solicitudes\\";
         static readonly String url_clientes = "D:\\proyects\\feria\\feriaDatabase\\clientes\\";
 
+        public static IEnumerable<Productor> LoadAllProductores() {
+            List<Productor> listaAll = new List<Productor>();
+            List<int> listaCedulas = GetAllCedulasProductores().ToList();
+            foreach (int cedula in listaCedulas) {
+                listaAll.Add(LoadProductor(cedula));
+            }
+            return listaAll;
+        }
+
+        public static XmlDocument LoadProductoresList()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            try
+            {
+                xmlDoc.Load(url_mist + "ProductoresList_doc.xml");
+            }
+            catch (FileNotFoundException)
+            {
+                byte[] info = new UTF8Encoding(true).GetBytes("<Productores></Productores>");
+                using (var myFile = File.Create(url_mist + "ProductoresList_doc.xml"))
+                {
+                    myFile.Write(info, 0, info.Length);
+                }
+                xmlDoc.Load(url_mist + "ProductoresList_doc.xml");
+            }
+            return xmlDoc;
+        }
+
+        public static IEnumerable<int> GetAllCedulasProductores() {
+            List<int> list = new List<int>();
+            XmlDocument xmlDoc = LoadProductoresList();
+            XmlNodeList nodeList = xmlDoc.DocumentElement.ChildNodes;
+            foreach (XmlNode node in nodeList)
+            {
+                list.Add(int.Parse(node.Attributes["Cedula"].Value));
+            }
+            return list;
+        }
+
+
         internal static IEnumerable<Solicitud> LoadSolicitudes()
         {
             List<Solicitud> list = new List<Solicitud>();

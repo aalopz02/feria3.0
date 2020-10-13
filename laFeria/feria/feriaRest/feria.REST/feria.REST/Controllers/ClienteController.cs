@@ -9,6 +9,11 @@ namespace feria.REST.Controllers
 {
     public class ClienteController : ApiController
     {
+
+        public IEnumerable<Productor> GetProductores(String usuario) {
+            return null;
+        }
+
         // /api/Cliente?user=aalopz
         public Cliente Get(String user)
         {
@@ -16,9 +21,13 @@ namespace feria.REST.Controllers
         }
 
         // /api/Cliente?user=aalopz&password=clave
-        public Cliente Get(String user, String password)
+        public Boolean Get(String user, String password)
         {
-            return DataBaseLoader.CheckLogIn(user,password);
+            Cliente cliente = DataBaseLoader.CheckLogIn(user, password);
+            if (cliente == null) {
+                return false;
+            }
+            return true;
         }
 
         //Post
