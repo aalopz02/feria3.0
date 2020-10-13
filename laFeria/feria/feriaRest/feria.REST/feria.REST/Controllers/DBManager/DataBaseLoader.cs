@@ -12,10 +12,46 @@ using System.IO;
 namespace feria.REST.Controllers.DBManager
 {
     public class DataBaseLoader
-    {   
+    {
         static readonly String url_mist = "D:\\proyects\\feria\\feriaDatabase\\Mist\\";
         static readonly String url_productores = "D:\\proyects\\feria\\feriaDatabase\\productores\\";
+        static readonly String url_solicitud = "D:\\proyects\\feria\\feriaDatabase\\Mist\\Solicitudes\\";
         static readonly String url_clientes = "D:\\proyects\\feria\\feriaDatabase\\clientes\\";
+
+        internal static IEnumerable<Solicitud> LoadSolicitudes()
+        {
+            List<Solicitud> list = new List<Solicitud>();
+            XmlDocument xmlDoc = LoadSolicitudXml();
+            XmlNodeList nodeList = xmlDoc.DocumentElement.ChildNodes;
+            List<int> ids = new List<int>();
+            List<int> cedulasProductor = new List<int>();
+            foreach (XmlNode node in nodeList)
+            {
+                cedulasProductor.Add(int.Parse(node.Attributes["Cedula"].Value));
+                ids.Add(int.Parse(node.Attributes["Id"].Value));
+            }
+            for (int i = 0; i < cedulasProductor.Count; i++) {
+                Productor productor = LoadProductor(url_solicitud + ids[i] + "_doc.xml");
+                list.Add(new Solicitud(ids[i], productor));
+            }
+            return list;
+        }
+
+        internal static Solicitud LoadSolicitud(int id)
+        {
+            XmlDocument xmlDoc = LoadSolicitudXml();
+            XmlNodeList nodeList = xmlDoc.DocumentElement.ChildNodes;
+            int cedulaProductor;
+            foreach (XmlNode node in nodeList)
+            {
+                if (int.Parse(node.Attributes["Id"].Value) == id)
+                {
+                    cedulaProductor = int.Parse(node.Attributes["Cedula"].Value);
+                }
+            }
+            Productor productor = LoadProductor(url_solicitud + id.ToString() + "_doc.xml");
+            return new Solicitud(id, productor);
+        }
 
         internal static IEnumerable<Categoria> LoadCategorias()
         {
@@ -27,6 +63,24 @@ namespace feria.REST.Controllers.DBManager
                 list.Add(new Categoria(int.Parse(node.Attributes["Id"].Value), node.Attributes["Nombre"].Value));
             }
             return list;
+        }
+
+        internal static int LoadLastSolicitudId(int id)
+        {
+            XmlDocument xmlDocument = LoadSolicitudXml();
+            XmlNodeList nodeList = xmlDocument.DocumentElement.ChildNodes;
+            foreach (XmlNode node in nodeList)
+            {
+                if (int.Parse(node.Attributes["Cedula"].Value) == id) {
+                    return -1;
+                }
+            }
+            int last = 0;
+            if (nodeList.Count == 0) {
+                return last;
+            } else
+                last = int.Parse(nodeList.Item(nodeList.Count - 1).Attributes["Id"].Value);
+            return last;
         }
 
         internal static Categoria LoadCategoria(int id)
@@ -114,9 +168,11 @@ namespace feria.REST.Controllers.DBManager
         public static Productor LoadProductor(String path)
         {
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(path);
-
-            if (xmlDoc == null) { return null; }
+            try
+            {
+                xmlDoc.Load(path);
+            }
+            catch (FileNotFoundException) { return null; }
             XmlNodeList nodeList = xmlDoc.DocumentElement.ChildNodes;
             XmlNode nodeInformacion = nodeList.Item(0);
             XmlNode nodeNombre = nodeList.Item(1);
@@ -133,7 +189,7 @@ namespace feria.REST.Controllers.DBManager
             {
                 entrega.Add(lugarEntrega.Value.ToString());
             }
-            Productor productor = new Productor(int.Parse(path.Replace(url_productores,"").Replace("_doc.xml","")),
+            Productor productor = new Productor(int.Parse(nodeInformacion.Attributes["Cedula"].Value),
                                                 nombreFull,
                                                 direccion,
                                                 nodeInformacion.Attributes["FechaNacimiento"].Value,
@@ -240,6 +296,26 @@ namespace feria.REST.Controllers.DBManager
                 );
 
             return cliente;
+        }
+
+        internal static XmlDocument LoadSolicitudXml()
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            try
+            {
+                xmlDoc.Load(url_solicitud + "Solicitudes_doc.xml");
+            }
+            catch (FileNotFoundException)
+            {
+                byte[] info = new UTF8Encoding(true).GetBytes("<Solicitudes></Solicitudes>");
+                using (var myFile = File.Create(url_solicitud + "Solicitudes_doc.xml"))
+                {
+                    myFile.Write(info, 0, info.Length);
+                }
+                xmlDoc.Load(url_solicitud + "Solicitudes_doc.xml");
+            }
+
+            return xmlDoc;
         }
     }
 

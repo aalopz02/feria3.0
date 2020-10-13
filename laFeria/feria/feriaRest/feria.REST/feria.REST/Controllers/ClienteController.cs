@@ -26,10 +26,6 @@ namespace feria.REST.Controllers
         public Boolean Post(int cedula, string info) 
         {
             String[] valores = info.Split('-');
-            if (DataBaseLoader.LoadClienteXml(valores[8]) != null)
-            {
-                return false;
-            }
             List<String> listaNombre = new List<string>
             {
                 valores[0],

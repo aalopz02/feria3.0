@@ -30,10 +30,6 @@ namespace feria.REST.Controllers
         //api/Productor?id=000&info=nombre-appellido-apellido2-provincia-canton-distrito-fecha-1-2-lugaresN-lugarQ
         public Boolean Post(int id, string info)
         {
-            if (DataBaseLoader.LoadProductor(id) != null)
-            {
-                return false;
-            }
             String[] valores = info.Split('-');
             List<String> listaNombre = new List<string>
             {

@@ -13,6 +13,7 @@ namespace feria.REST.Controllers.DBManager
         static readonly String url_productores = "D:\\proyects\\feria\\feriaDatabase\\productores\\";
         static readonly String url_clientes = "D:\\proyects\\feria\\feriaDatabase\\clientes\\";
         static readonly String url_mist = "D:\\proyects\\feria\\feriaDatabase\\Mist\\";
+        static readonly String url_solicitud = "D:\\proyects\\feria\\feriaDatabase\\Mist\\Solicitudes\\";
 
         public static XmlDocument CrearNuevoProductor(Productor productor)
         {
@@ -80,6 +81,30 @@ namespace feria.REST.Controllers.DBManager
 
             return xmlDoc;
 
+        }
+
+        internal static bool DeleteSolicitud(int id)
+        {
+            XmlDocument xmlDoc = DataBaseLoader.LoadSolicitudXml();
+            XmlNodeList nodeList = xmlDoc.DocumentElement.ChildNodes;
+            List<int> ids = new List<int>();
+            List<int> cedulasProductores = new List<int>();
+            foreach (XmlNode node in nodeList)
+            {
+                if (int.Parse(node.Attributes["Id"].Value) != id)
+                {
+                    cedulasProductores.Add(int.Parse(node.Attributes["Cedula"].Value));
+                    ids.Add(int.Parse(node.Attributes["Id"].Value));
+                }
+                
+            }
+            File.Delete(url_solicitud + "Solicitudes_doc.xml");
+            File.Delete(url_solicitud + id.ToString() + "_doc.xml");
+            for (int i = 0; i < cedulasProductores.Count; i++)
+            {
+                AddSolicitudId(ids[i],cedulasProductores[i]);
+            }
+            return true;
         }
 
         internal static bool DeleteCat(int id)
@@ -327,5 +352,89 @@ namespace feria.REST.Controllers.DBManager
 
             xmlDoc.Save(url_mist + "Categorias_doc.xml");
         }
+
+        public static void AddSolicitud(Solicitud solicitud) {
+            XmlDocument xmlDoc = new XmlDocument();
+            XmlNode rootNode = xmlDoc.CreateElement("Productor");
+            xmlDoc.AppendChild(rootNode);
+            XmlNode nodeProductor = xmlDoc.CreateElement("Informacion");
+            XmlAttribute atributo;
+            Productor productor = solicitud.productor;
+            atributo = xmlDoc.CreateAttribute("Cedula");
+            atributo.Value = productor.cedula.ToString();
+            nodeProductor.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("FechaNacimiento");
+            atributo.Value = productor.fechaNacimiento;
+            nodeProductor.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("Telefono");
+            atributo.Value = productor.telefono.ToString();
+            nodeProductor.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("Sinpe");
+            atributo.Value = productor.sinpe.ToString();
+            nodeProductor.Attributes.Append(atributo);
+            rootNode.AppendChild(nodeProductor);
+
+            nodeProductor = xmlDoc.CreateElement("Nombre");
+            atributo = xmlDoc.CreateAttribute("Nombre");
+            atributo.Value = productor.nombre;
+            nodeProductor.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("PrimerApellido");
+            atributo.Value = productor.apellido1;
+            nodeProductor.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("SegundoApellido");
+            atributo.Value = productor.apellido2;
+            nodeProductor.Attributes.Append(atributo);
+            rootNode.AppendChild(nodeProductor);
+
+            nodeProductor = xmlDoc.CreateElement("Direccion");
+            atributo = xmlDoc.CreateAttribute("Provincia");
+            atributo.Value = productor.direccion[0];
+            nodeProductor.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("Canton");
+            atributo.Value = productor.direccion[1];
+            nodeProductor.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("Distrito");
+            atributo.Value = productor.direccion[2];
+            nodeProductor.Attributes.Append(atributo);
+            rootNode.AppendChild(nodeProductor);
+
+            nodeProductor = xmlDoc.CreateElement("LugaresDisponibles");
+            int indice = 0;
+            foreach (String lugar in productor.direccionesEntrega)
+            {
+                atributo = xmlDoc.CreateAttribute("Lugar" + indice.ToString());
+                atributo.Value = lugar;
+                nodeProductor.Attributes.Append(atributo);
+                indice += 1;
+            }
+            rootNode.AppendChild(nodeProductor);
+
+            nodeProductor = xmlDoc.CreateElement("Productos");
+
+            rootNode.AppendChild(nodeProductor);
+
+            xmlDoc.Save(url_solicitud + solicitud.id + "_doc.xml");
+        }
+
+        public static void AddSolicitudId(int id, int cedula) {
+            XmlDocument xmlDoc = DataBaseLoader.LoadSolicitudXml();
+
+            XmlNode rootNode = xmlDoc.ChildNodes[0];
+            xmlDoc.AppendChild(rootNode);
+
+            XmlNode nodeCategoria = xmlDoc.CreateElement("Categoria");
+            XmlAttribute atributo;
+            atributo = xmlDoc.CreateAttribute("Id");
+            atributo.Value = id.ToString();
+            nodeCategoria.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("Cedula");
+            atributo.Value = cedula.ToString();
+            nodeCategoria.Attributes.Append(atributo);
+
+            rootNode.AppendChild(nodeCategoria);
+
+            xmlDoc.Save(url_solicitud + "Solicitudes_doc.xml");
+        }
+
     }
 }
