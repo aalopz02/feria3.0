@@ -9,9 +9,10 @@ namespace feria.REST.Controllers
 {
     public class ClienteController : ApiController
     {
-
+        ///api/Cliente?usuario=aalopz
         public IEnumerable<Productor> GetProductores(String usuario) {
-            return null;
+            Cliente cliente = DataBaseLoader.LoadCliente(usuario);
+            return new ProductorController().GetByDistrito(cliente.direccion[2]);
         }
 
         // /api/Cliente?user=aalopz
@@ -51,6 +52,7 @@ namespace feria.REST.Controllers
                 valores[4],
                 valores[5]
             };
+
             Cliente cliente = new Cliente(cedula,listaNombre,listaDireccion,valores[6],int.Parse(valores[7]),valores[8],valores[9]);
             DataBaseWriter.AddUsuario(cliente);
             DataBaseWriter.AddUserNameToList(cliente.GetLogIn());
