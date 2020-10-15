@@ -1,5 +1,6 @@
 ﻿using feria.REST.Controllers.DBManager;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,6 +10,38 @@ namespace feria.REST.Controllers
 {
     public class ClienteController : ApiController
     {
+        //POST
+        //api/Cliente?nombreUser=aalopz
+        public void FinalizarCompra(String nombreUser) {
+            IEnumerable<Articulo> articulos = GetCart(nombreUser);
+            foreach (Articulo articulo in articulos) {
+
+            }
+            //TODO pasar carrito a lista pedidos de productores
+        }
+
+        //GET
+        //api/Cliente?nombreUser=aalopz
+        public IEnumerable<Articulo> GetCart(String nombreUser)
+        {
+            Carrito cart = DataBaseLoader.LoadUserCart(nombreUser);
+            return cart.listado;
+        }
+
+        //POST
+        //api/Cliente?user=aalopz&nombreProducto=nombreProducto&cantidad=000&cedulaProductor=1
+        public Boolean AgregarACarrito(String user, String nombreProducto, int cantidad, int cedulaProductor) {
+            Producto producto = null;
+            foreach (Producto producto1 in DataBaseLoader.LoadProductorInventory(cedulaProductor)) {
+                if (producto1.nombre.Equals(nombreProducto)) {
+                    producto = producto1;
+                }
+            }
+            Articulo articulo = new Articulo(nombreProducto, cedulaProductor,producto.precio,cantidad,producto.modoVenta);
+            return DataBaseWriter.AddProductoToCarrito(user,articulo);
+        }
+
+        //GET
         ///api/Cliente?usuario=aalopz
         public IEnumerable<Productor> GetProductores(String usuario) {
             Cliente cliente = DataBaseLoader.LoadCliente(usuario);

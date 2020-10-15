@@ -160,10 +160,12 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\CatController.cs" />
     <Compile Include="Controllers\ClienteController.cs" />
+    <Compile Include="Controllers\DBManager\Carrito.cs" />
     <Compile Include="Controllers\DBManager\Categoria.cs" />
     <Compile Include="Controllers\DBManager\Cliente.cs" />
     <Compile Include="Controllers\DBManager\DataBaseLoader.cs" />
     <Compile Include="Controllers\DBManager\DataBaseWriter.cs" />
+    <Compile Include="Controllers\DBManager\Pedidos.cs" />
     <Compile Include="Controllers\DBManager\Producto.cs" />
     <Compile Include="Controllers\DBManager\Productor.cs" />
     <Compile Include="Controllers\DBManager\Solicitud.cs" />

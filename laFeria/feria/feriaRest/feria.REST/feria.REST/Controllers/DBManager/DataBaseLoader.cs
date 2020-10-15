@@ -13,10 +13,77 @@ namespace feria.REST.Controllers.DBManager
 {
     public class DataBaseLoader
     {
+       
         static readonly String url_mist = "D:\\proyects\\feria\\feriaDatabase\\Mist\\";
         static readonly String url_productores = "D:\\proyects\\feria\\feriaDatabase\\productores\\";
         static readonly String url_solicitud = "D:\\proyects\\feria\\feriaDatabase\\Mist\\Solicitudes\\";
         static readonly String url_clientes = "D:\\proyects\\feria\\feriaDatabase\\clientes\\";
+
+        public static XmlDocument LoadPedidosXml(int cedula)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            try
+            {
+                xmlDoc.Load(url_productores + "pedidos//" + cedula.ToString() + "_doc.xml");
+            }
+            catch (FileNotFoundException)
+            {
+                byte[] info = new UTF8Encoding(true).GetBytes("<Pedidos></Pedidos>");
+                using (var myFile = File.Create(url_productores + "pedidos//" + cedula.ToString() + "_doc.xml"))
+                {
+                    myFile.Write(info, 0, info.Length);
+                }
+                xmlDoc.Load(url_productores + "pedidos//" + cedula.ToString() + "_doc.xml");
+            }
+            return xmlDoc;
+        }
+        /*
+         * public int idPedido;
+        public String cantidad;
+        public String usuario;
+        public List<String> direccion;
+        public List<Articulo> producto;
+        String factura;
+
+        public Pedido(int id, String cantidad, String usuario, List<String> direccion, String factura) {
+            this.idPedido = id;
+            this.cantidad = cantidad;
+            this.usuario = usuario;
+            this.direccion = direccion;
+            this.factura = factura;
+            producto = new List<Articulo>();
+        }
+         */
+        internal static Pedidos GetPedidos(int cedula) {
+            Pedidos pedidos = new Pedidos(cedula);
+            XmlDocument xmlDoc = LoadPedidosXml(cedula);
+            XmlNode productos = xmlDoc.LastChild.LastChild;
+
+            foreach (XmlNode pedido in productos.ChildNodes)
+            {
+                List<Pedido> inventario = new List<Pedido>();
+
+
+            }
+            return pedidos;
+        }
+
+        internal static Carrito LoadUserCart(string user)
+        {
+            Carrito cart = new Carrito(user);
+            XmlDocument xmlDocument = LoadUserCartXml(user);
+            XmlNodeList nodeList = xmlDocument.DocumentElement.ChildNodes;
+            foreach (XmlNode xmlArticulo in nodeList)
+            {
+                Articulo articulo = new Articulo(xmlArticulo.Attributes["NombreProducto"].Value,
+                                                    int.Parse(xmlArticulo.Attributes["CedulaProductor"].Value),
+                                                    int.Parse(xmlArticulo.Attributes["Precio"].Value),
+                                                    int.Parse(xmlArticulo.Attributes["Cantidad"].Value),
+                                                    xmlArticulo.Attributes["ModoVenta"].Value);
+                cart.listado.Add(articulo);
+            }
+            return cart;
+        }
 
         public static IEnumerable<Productor> LoadAllProductores() {
             List<Productor> listaAll = new List<Productor>();
@@ -42,6 +109,25 @@ namespace feria.REST.Controllers.DBManager
                     myFile.Write(info, 0, info.Length);
                 }
                 xmlDoc.Load(url_mist + "ProductoresList_doc.xml");
+            }
+            return xmlDoc;
+        }
+
+        internal static XmlDocument LoadUserCartXml(string user)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            try
+            {
+                xmlDoc.Load(url_clientes + "carritos\\" + user + "_doc.xml");
+            }
+            catch (FileNotFoundException)
+            {
+                byte[] info = new UTF8Encoding(true).GetBytes("<Carrito></Carrito>");
+                using (var myFile = File.Create(url_clientes + "carritos//" + user + "_doc.xml"))
+                {
+                    myFile.Write(info, 0, info.Length);
+                }
+                xmlDoc.Load(url_clientes + "carritos//" + user + "_doc.xml");
             }
             return xmlDoc;
         }

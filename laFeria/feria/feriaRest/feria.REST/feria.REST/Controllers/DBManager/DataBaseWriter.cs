@@ -32,6 +32,34 @@ namespace feria.REST.Controllers.DBManager
             xmlDoc.Save(url_mist + "ClientesList_doc.xml");
         }
 
+        internal static bool AddProductoToCarrito(string user, Articulo articulo)
+        {
+            XmlDocument xmlDoc = DataBaseLoader.LoadUserCartXml(user);
+            XmlNode rootNode = xmlDoc.ChildNodes[0];
+            xmlDoc.AppendChild(rootNode);
+            XmlNode nodeProducto = xmlDoc.CreateElement("Producto");
+            XmlAttribute atributo;
+            atributo = xmlDoc.CreateAttribute("NombreProducto");
+            atributo.Value = articulo.Producto;
+            nodeProducto.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("CedulaProductor");
+            atributo.Value = articulo.cedulaProductor.ToString();
+            nodeProducto.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("Precio");
+            atributo.Value = articulo.precio.ToString();
+            nodeProducto.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("Cantidad");
+            atributo.Value = articulo.cantidad.ToString();
+            nodeProducto.Attributes.Append(atributo);
+            atributo = xmlDoc.CreateAttribute("ModoVenta");
+            atributo.Value = articulo.modoVenta;
+            nodeProducto.Attributes.Append(atributo);
+
+            rootNode.AppendChild(nodeProducto);
+            xmlDoc.Save(url_clientes + "carritos//" + user + "_doc.xml");
+            return true;
+        }
+
         public static void AddCedulaProductor(int cedula) {
             XmlDocument xmlDoc = DataBaseLoader.LoadProductoresList();
 

@@ -1,0 +1,5 @@
+<Carrito>
+  <Producto NombreProducto="nombreProducto" CedulaProductor="1" Precio="22" Cantidad="0" ModoVenta="kilo" />
+  <Producto NombreProducto="nombreProducto" CedulaProductor="1" Precio="22" Cantidad="0" ModoVenta="kilo" />
+  <Producto NombreProducto="nombreProducto" CedulaProductor="1" Precio="22" Cantidad="0" ModoVenta="kilo" />
+</Carrito>
