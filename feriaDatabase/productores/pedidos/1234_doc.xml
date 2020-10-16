@@ -1,0 +1,14 @@
+<Pedidos>
+  <Pedido IdPedido="1" Usuario="aalopz" Direccion="provincia,canton,distrito" Factura="lafactura">
+    <Articulos>
+      <Articulo Producto="alitas" Cantidad="12" Precio="22" ModoVenta="kilo" />
+      <Articulo Producto="muslitos" Cantidad="10" Precio="22" ModoVenta="kilo" />
+    </Articulos>
+  </Pedido>
+  <Pedido IdPedido="2" Usuario="aalopz" Direccion="provincia,canton,distrito" Factura="lafactura">
+    <Articulos>
+      <Articulo Producto="alitas" Cantidad="12" Precio="22" ModoVenta="kilo" />
+      <Articulo Producto="muslitos" Cantidad="10" Precio="22" ModoVenta="kilo" />
+    </Articulos>
+  </Pedido>
+</Pedidos>

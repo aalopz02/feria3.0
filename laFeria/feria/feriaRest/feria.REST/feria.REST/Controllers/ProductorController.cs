@@ -12,6 +12,15 @@ namespace feria.REST.Controllers
 {
     public class ProductorController : ApiController
     {
+
+        //GET
+        //api/Productor?cedulaPedidos=1234
+        public Pedidos GetPedidos(int cedulaPedidos)
+        {
+            return DataBaseLoader.GetPedidos(cedulaPedidos);
+        }
+
+
         // GET
         //api/Productor?distrito=nombre
         public IEnumerable<Productor> GetByDistrito(String distrito) {

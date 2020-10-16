@@ -168,3 +168,6 @@ D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\obj\Debug\feria.
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\obj\Debug\feria.REST.csproj.CopyComplete
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\obj\Debug\feria.REST.dll
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\obj\Debug\feria.REST.pdb
+D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Web.Cors.dll
+D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Web.Http.Cors.dll
+D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Web.Http.Cors.xml

@@ -37,32 +37,28 @@ namespace feria.REST.Controllers.DBManager
             }
             return xmlDoc;
         }
-        /*
-         * public int idPedido;
-        public String cantidad;
-        public String usuario;
-        public List<String> direccion;
-        public List<Articulo> producto;
-        String factura;
 
-        public Pedido(int id, String cantidad, String usuario, List<String> direccion, String factura) {
-            this.idPedido = id;
-            this.cantidad = cantidad;
-            this.usuario = usuario;
-            this.direccion = direccion;
-            this.factura = factura;
-            producto = new List<Articulo>();
-        }
-         */
         internal static Pedidos GetPedidos(int cedula) {
             Pedidos pedidos = new Pedidos(cedula);
             XmlDocument xmlDoc = LoadPedidosXml(cedula);
-            XmlNode productos = xmlDoc.LastChild.LastChild;
+            XmlNode rootNode = xmlDoc.ChildNodes[0];
 
-            foreach (XmlNode pedido in productos.ChildNodes)
+            foreach (XmlNode pedidoXml in rootNode.ChildNodes)
             {
-                List<Pedido> inventario = new List<Pedido>();
-
+                Pedido pedido = new Pedido(int.Parse(pedidoXml.Attributes["IdPedido"].Value),
+                                           pedidoXml.Attributes["Usuario"].Value,
+                                           pedidoXml.Attributes["Direccion"].Value.Split(',').ToList(),
+                                           pedidoXml.Attributes["Factura"].Value);
+                foreach (XmlNode articuloxml in pedidoXml.ChildNodes[0]) {
+                    pedido.productos.Add(new Articulo(articuloxml.Attributes["Producto"].Value,
+                                                      cedula,
+                                                      int.Parse(articuloxml.Attributes["Precio"].Value),
+                                                      int.Parse(articuloxml.Attributes["Cantidad"].Value),
+                                                      articuloxml.Attributes["ModoVenta"].Value)
+                                                      );
+                }
+                
+                pedidos.pedidos.Add(pedido);
 
             }
             return pedidos;
@@ -109,6 +105,36 @@ namespace feria.REST.Controllers.DBManager
                     myFile.Write(info, 0, info.Length);
                 }
                 xmlDoc.Load(url_mist + "ProductoresList_doc.xml");
+            }
+            return xmlDoc;
+        }
+
+
+        public static List<int> LoadIdsPedidosProductor(int cedula) {
+            List<int> idList = new List<int>();
+            XmlDocument xmlDoc = LoadIdsPedidosProductorXml(cedula);
+            XmlNodeList xmlNodeList = xmlDoc.DocumentElement.ChildNodes;
+            foreach (XmlNode node in xmlNodeList) {
+                idList.Add(int.Parse(node.Attributes["Id"].Value));
+            }
+            return idList;
+        }
+
+        public static XmlDocument LoadIdsPedidosProductorXml(int cedula)
+        {
+            XmlDocument xmlDoc = new XmlDocument();
+            try
+            {
+                xmlDoc.Load(url_productores + "pedidos//" + cedula.ToString() + "_ids.xml");
+            }
+            catch (FileNotFoundException)
+            {
+                byte[] info = new UTF8Encoding(true).GetBytes("<IDPedidos></IDPedidos>");
+                using (var myFile = File.Create(url_productores + "pedidos//" + cedula.ToString() + "_ids.xml"))
+                {
+                    myFile.Write(info, 0, info.Length);
+                }
+                xmlDoc.Load(url_productores + "pedidos//" + cedula.ToString() + "_ids.xml");
             }
             return xmlDoc;
         }

@@ -1,6 +1,4 @@
 <Productores>
-  <Productor Cedula="1" />
-  <Productor Cedula="2" />
-  <Productor Cedula="2" />
-  <Productor Cedula="3" />
+  <Productor Cedula="222222" />
+  <Productor Cedula="1234" />
 </Productores>

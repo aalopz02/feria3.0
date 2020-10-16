@@ -1,7 +1,0 @@
-<Productor>
-  <Informacion Cedula="3" FechaNacimiento="fecha" Telefono="1" Sinpe="2" />
-  <Nombre Nombre="nombre" PrimerApellido="appellido" SegundoApellido="apellido2" />
-  <Direccion Provincia="provincia" Canton="canton" Distrito="distrito" />
-  <LugaresDisponibles Lugar0="lugaresN" Lugar1="lugarQ" />
-  <Productos />
-</Productor>

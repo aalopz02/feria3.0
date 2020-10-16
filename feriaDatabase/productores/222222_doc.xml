@@ -1,0 +1,11 @@
+<Productor>
+  <Informacion Cedula="222222" FechaNacimiento="undefined" Telefono="25252525" Sinpe="25252525" />
+  <Nombre Nombre="JesusBota" PrimerApellido="Lopez" SegundoApellido="Villalobos" />
+  <Direccion Provincia="Cartago" Canton="aloo" Distrito="culauquiera" />
+  <LugaresDisponibles Lugar0="erer" />
+  <Productos>
+    <Producto Nombre="bistek" Categoria="carne" Imagen="adadadad" Precio="22" ModoVenta="kilo" Disponibles="0" />
+    <Producto Nombre="cosa" Categoria="carne" Imagen="adadadad" Precio="22" ModoVenta="kilo" Disponibles="0" />
+    <Producto Nombre="cosasss" Categoria="carne" Imagen="adadadad" Precio="22" ModoVenta="kilo" Disponibles="0" />
+  </Productos>
+</Productor>

@@ -1,0 +1,12 @@
+<Pedidos>
+  <Pedido IdPedido="1" Usuario="aalopz" Direccion="provincia,canton,distrito" Factura="lafactura">
+    <Articulos>
+      <Articulo Producto="cosasss" Cantidad="10" Precio="22" ModoVenta="kilo" />
+    </Articulos>
+  </Pedido>
+  <Pedido IdPedido="2" Usuario="aalopz" Direccion="provincia,canton,distrito" Factura="lafactura">
+    <Articulos>
+      <Articulo Producto="cosasss" Cantidad="10" Precio="22" ModoVenta="kilo" />
+    </Articulos>
+  </Pedido>
+</Pedidos>

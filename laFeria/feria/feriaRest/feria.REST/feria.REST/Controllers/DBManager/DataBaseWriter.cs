@@ -15,12 +15,84 @@ namespace feria.REST.Controllers.DBManager
         static readonly String url_mist = "D:\\proyects\\feria\\feriaDatabase\\Mist\\";
         static readonly String url_solicitud = "D:\\proyects\\feria\\feriaDatabase\\Mist\\Solicitudes\\";
 
+        internal static void AddIdToPedidosList(int cedula) {
+            XmlDocument xmlDoc = DataBaseLoader.LoadIdsPedidosProductorXml(cedula);
+            List<int> idList = DataBaseLoader.LoadIdsPedidosProductor(cedula);
+            int pedidoNuevo = 0;
+            if (idList.Count != 0) {
+                pedidoNuevo = idList.Last();
+            }
+            XmlNode rootNode = xmlDoc.ChildNodes[0];
+
+            XmlNode nodeId = xmlDoc.CreateElement("IdPedido");
+            XmlAttribute atributo;
+            atributo = xmlDoc.CreateAttribute("Id");
+            atributo.Value = (pedidoNuevo + 1).ToString();
+            nodeId.Attributes.Append(atributo);
+            rootNode.AppendChild(nodeId);
+
+            xmlDoc.Save(url_productores + "pedidos//" + cedula.ToString() + "_ids.xml");
+        }
+
+        internal static void AddPedidoAProductor(int cedula, Pedido pedido) {
+            XmlDocument xmlDoc = DataBaseLoader.LoadPedidosXml(cedula);
+            XmlNode rootNode = xmlDoc.ChildNodes[0];
+
+            XmlNode nodePedido = xmlDoc.CreateElement("Pedido");
+
+            XmlAttribute atributo;
+            atributo = xmlDoc.CreateAttribute("IdPedido");
+            atributo.Value = pedido.idPedido.ToString();
+            nodePedido.Attributes.Append(atributo);
+
+            atributo = xmlDoc.CreateAttribute("Usuario");
+            atributo.Value = pedido.usuario;
+            nodePedido.Attributes.Append(atributo);
+
+            atributo = xmlDoc.CreateAttribute("Direccion");
+            String direccion = pedido.direccion[0] + "," + pedido.direccion[1] + "," + pedido.direccion[2];
+            atributo.Value = direccion;
+            nodePedido.Attributes.Append(atributo);
+
+            atributo = xmlDoc.CreateAttribute("Factura");
+            atributo.Value = pedido.factura; ;
+            nodePedido.Attributes.Append(atributo);
+
+            XmlNode nodeArticulos = xmlDoc.CreateElement("Articulos");
+            foreach (Articulo articulo in pedido.productos) {
+
+                XmlNode nodeArticulo = xmlDoc.CreateElement("Articulo");
+
+                atributo = xmlDoc.CreateAttribute("Producto");
+                atributo.Value = articulo.Producto;
+                nodeArticulo.Attributes.Append(atributo);
+
+                atributo = xmlDoc.CreateAttribute("Cantidad");
+                atributo.Value = articulo.cantidad.ToString();
+                nodeArticulo.Attributes.Append(atributo);
+
+                atributo = xmlDoc.CreateAttribute("Precio");
+                atributo.Value = articulo.precio.ToString();
+                nodeArticulo.Attributes.Append(atributo);
+
+                atributo = xmlDoc.CreateAttribute("ModoVenta");
+                atributo.Value = articulo.modoVenta;
+                nodeArticulo.Attributes.Append(atributo);
+
+                nodeArticulos.AppendChild(nodeArticulo);
+                
+            }
+            nodePedido.AppendChild(nodeArticulos);
+            rootNode.AppendChild(nodePedido);
+            xmlDoc.Save(url_productores + "pedidos//" + cedula.ToString() + "_doc.xml");
+        }
+
+
         public static void AddUserNameToList(String usuario)
         {
             XmlDocument xmlDoc = DataBaseLoader.LoadClientesListXml();
 
             XmlNode rootNode = xmlDoc.ChildNodes[0];
-            xmlDoc.AppendChild(rootNode);
 
             XmlNode nodeUser = xmlDoc.CreateElement("Usuario");
             XmlAttribute atributo;
@@ -64,7 +136,6 @@ namespace feria.REST.Controllers.DBManager
             XmlDocument xmlDoc = DataBaseLoader.LoadProductoresList();
 
             XmlNode rootNode = xmlDoc.ChildNodes[0];
-            xmlDoc.AppendChild(rootNode);
 
             XmlNode nodeProductor = xmlDoc.CreateElement("Productor");
             XmlAttribute atributo;
@@ -209,19 +280,19 @@ namespace feria.REST.Controllers.DBManager
             XmlNodeList nodeList = catDoc.DocumentElement.ChildNodes;
             String anterior = "";
             File.Delete(url_mist + "Categorias_doc.xml");
-            int index = 0;
             foreach (XmlNode node in nodeList)
             {
+                Categoria aux = null;
                 if (id == int.Parse(node.Attributes["Id"].Value))
                 {
                     anterior = node.Attributes["Nombre"].Value;
-                    list.Add(new Categoria(int.Parse(node.Attributes["Id"].Value), node.Attributes["Nombre"].Value));
+                    aux = new Categoria(int.Parse(node.Attributes["Id"].Value), value);
                 }
-                else { 
-                    list.Add(new Categoria(int.Parse(node.Attributes["Id"].Value), value)); 
+                else {
+                    aux = new Categoria(int.Parse(node.Attributes["Id"].Value), node.Attributes["Nombre"].Value); 
                 }
-                AddCategoria(list[index]);
-                index++;
+                list.Add(aux);
+                AddCategoria(aux);
             }
             foreach (string file in Directory.EnumerateFiles(url_productores, "*_doc.xml"))
             {
@@ -410,7 +481,6 @@ namespace feria.REST.Controllers.DBManager
             XmlDocument xmlDoc = DataBaseLoader.LoadCategoriasXml();
 
             XmlNode rootNode = xmlDoc.ChildNodes[0];
-            xmlDoc.AppendChild(rootNode);
 
             XmlNode nodeCategoria = xmlDoc.CreateElement("Categoria");
             XmlAttribute atributo;
