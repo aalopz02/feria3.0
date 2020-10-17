@@ -84,7 +84,7 @@ namespace feria.REST.Controllers
             return true;
         }
 
-        //api/Productor?id=1223456&infoproducto=nombreProducto-categoria-22-kilo-adadadad
+        //api/Productor?id=cedulaProductor&infoproducto=nombreProducto-categoria-precio-modoVenta-cantidad-img
         public Boolean AddProducto(int id, string infoproducto)
         {
             String[] valores = infoproducto.Split('-');
@@ -95,7 +95,8 @@ namespace feria.REST.Controllers
             {
                 if (cat.nombre == valores[1])
                 {
-                    Producto producto = new Producto(valores[0], valores[1], int.Parse(valores[2]), valores[3], valores[4]);
+                    Producto producto = new Producto(valores[0], valores[1], int.Parse(valores[2]), valores[3], valores[5]);
+                    producto.AumentarStock(int.Parse(valores[4]));
                     productor.AddProducto(producto);
                     return true;
                 }
