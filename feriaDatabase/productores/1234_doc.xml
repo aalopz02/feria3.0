@@ -8,5 +8,7 @@
     <Producto Nombre="nombreProducto" Categoria="pollo" Imagen="adadadad" Precio="22" ModoVenta="kilo" Disponibles="0" />
     <Producto Nombre="alitas" Categoria="pollo" Imagen="adadadad" Precio="22" ModoVenta="kilo" Disponibles="0" />
     <Producto Nombre="muslitos" Categoria="pollo" Imagen="adadadad" Precio="22" ModoVenta="kilo" Disponibles="0" />
+    <Producto Nombre="nombreProducto" Categoria="pollo" Imagen="img.img" Precio="1000" ModoVenta="modoVenta" Disponibles="10" />
+    <Producto Nombre="nombreProducto" Categoria="pollo" Imagen="img.img" Precio="1000" ModoVenta="modoVenta" Disponibles="10" />
   </Productos>
 </Productor>

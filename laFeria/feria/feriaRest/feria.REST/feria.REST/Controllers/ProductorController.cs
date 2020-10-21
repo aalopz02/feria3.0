@@ -27,7 +27,7 @@ namespace feria.REST.Controllers
             IEnumerable<Productor> allProductores = Get();
             List<Productor> selectedProductores = new List<Productor>();
             foreach (Productor productor in allProductores) {
-                if (productor.direccion[2].Equals(distrito)) {
+                if (productor.direccionesEntrega.Contains(distrito)) {
                     selectedProductores.Add(productor);
                 }
             }
@@ -92,7 +92,7 @@ namespace feria.REST.Controllers
             if (productor==null) { return false; }
             List<Categoria> listaCat = DataBaseLoader.LoadCategorias().ToList();
             foreach (Categoria cat in listaCat)
-            {
+            {//String nombre, String categoria, int precio, String modoVenta, String imagen)
                 if (cat.nombre == valores[1])
                 {
                     Producto producto = new Producto(valores[0], valores[1], int.Parse(valores[2]), valores[3], valores[5]);

@@ -11,7 +11,7 @@ namespace feria.REST.Controllers
     public class CartController : ApiController
     {
         //POST
-        //api/Cliente?nombreUser=aalopz
+        //api/Cart?nombreUser=aalopz
         public void POST(String nombreUser, String factura)
         {
             IEnumerable<Articulo> articulos = Get(nombreUser);
