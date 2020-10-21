@@ -8,6 +8,9 @@ using System.Xml;
 
 namespace feria.REST.Controllers.DBManager
 {
+    /*
+     * Clase para manejar la escritura y modificacion de los archivos de la base de datos 
+     */
     public class DataBaseWriter
     {
         static readonly String url_productores = "D:\\proyects\\feria\\feriaDatabase\\productores\\";
@@ -15,6 +18,9 @@ namespace feria.REST.Controllers.DBManager
         static readonly String url_mist = "D:\\proyects\\feria\\feriaDatabase\\Mist\\";
         static readonly String url_solicitud = "D:\\proyects\\feria\\feriaDatabase\\Mist\\Solicitudes\\";
 
+        /*
+         * Metodo para agregar un identificador de pedido a un productor 
+         */
         internal static void AddIdToPedidosList(int cedula) {
             XmlDocument xmlDoc = DataBaseLoader.LoadIdsPedidosProductorXml(cedula);
             List<int> idList = DataBaseLoader.LoadIdsPedidosProductor(cedula);
@@ -34,6 +40,9 @@ namespace feria.REST.Controllers.DBManager
             xmlDoc.Save(url_productores + "pedidos//" + cedula.ToString() + "_ids.xml");
         }
 
+        /*
+         * Metodo para agregar un Pedido a un productor
+         */
         internal static void AddPedidoAProductor(int cedula, Pedido pedido) {
             XmlDocument xmlDoc = DataBaseLoader.LoadPedidosXml(cedula);
             XmlNode rootNode = xmlDoc.ChildNodes[0];
@@ -87,7 +96,9 @@ namespace feria.REST.Controllers.DBManager
             xmlDoc.Save(url_productores + "pedidos//" + cedula.ToString() + "_doc.xml");
         }
 
-
+        /*
+         * Metodo para agregar un usuario nuevo a la lista de usuarios
+         */
         public static void AddUserNameToList(String usuario)
         {
             XmlDocument xmlDoc = DataBaseLoader.LoadClientesListXml();
@@ -104,7 +115,10 @@ namespace feria.REST.Controllers.DBManager
             xmlDoc.Save(url_mist + "ClientesList_doc.xml");
         }
 
-        internal static bool AddProductoToCarrito(string user, Articulo articulo)
+        /*
+         * Metodo para agregar un Articulo al carrito de un usuario
+         */
+        internal static void AddProductoToCarrito(string user, Articulo articulo)
         {
             XmlDocument xmlDoc = DataBaseLoader.LoadUserCartXml(user);
             XmlNode rootNode = xmlDoc.ChildNodes[0];
@@ -129,9 +143,11 @@ namespace feria.REST.Controllers.DBManager
 
             rootNode.AppendChild(nodeProducto);
             xmlDoc.Save(url_clientes + "carritos//" + user + "_doc.xml");
-            return true;
         }
 
+        /*
+         * Metodo para agregar una nueva cedula de un productor a la lista de cedulas
+         */
         public static void AddCedulaProductor(int cedula) {
             XmlDocument xmlDoc = DataBaseLoader.LoadProductoresList();
 
@@ -147,7 +163,10 @@ namespace feria.REST.Controllers.DBManager
             xmlDoc.Save(url_mist + "ProductoresList_doc.xml");
         }
 
-        public static XmlDocument CrearNuevoProductor(Productor productor)
+        /*
+         * Metodo para crear un nuevo archivo xml con un productor nuevo
+         */
+        public static void CrearNuevoProductor(Productor productor)
         {
             XmlDocument xmlDoc = new XmlDocument();
             XmlNode rootNode = xmlDoc.CreateElement("Productor");
@@ -211,11 +230,12 @@ namespace feria.REST.Controllers.DBManager
 
             xmlDoc.Save(url_productores + productor.cedula.ToString() + "_doc.xml");
 
-            return xmlDoc;
-
         }
 
-        internal static bool DeleteSolicitud(int id)
+        /*
+         * Metodo para borrar una solicitud de union de un productor de la lista de solicitudes, lo busca por id de solicitud
+         */
+        internal static void DeleteSolicitud(int id)
         {
             XmlDocument xmlDoc = DataBaseLoader.LoadSolicitudXml();
             XmlNodeList nodeList = xmlDoc.DocumentElement.ChildNodes;
@@ -236,9 +256,13 @@ namespace feria.REST.Controllers.DBManager
             {
                 AddSolicitudId(ids[i],cedulasProductores[i]);
             }
-            return true;
         }
 
+        /*
+         * Metodo para borrar una categoria de la lista de categorias
+         * Devuelve false si algun producto depende de la categoria que se quiere borrar
+         * True, cuando se puede borrar sin problemas
+         */
         internal static bool DeleteCat(int id)
         {
             XmlDocument catDoc = DataBaseLoader.LoadCategoriasXml();
@@ -273,7 +297,11 @@ namespace feria.REST.Controllers.DBManager
             return true;
         }
 
-        internal static bool ModifyCat(int id, string value)
+        /*
+         * Metodo para modificar una categoria, la busca por id y le asigna el nuevo nombre
+         * Busca los porductos que tengan ese nomrbe de categoria y se los actualiza
+         */
+        internal static void ModifyCat(int id, string value)
         {
             XmlDocument catDoc = DataBaseLoader.LoadCategoriasXml();
             List<Categoria> list = new List<Categoria>();
@@ -305,10 +333,11 @@ namespace feria.REST.Controllers.DBManager
                     AddProducto(productor.cedula,producto);
                 }
             }
-            
-            return true;
         }
 
+        /*
+         * Metodo para eliminar un cliente, si no existe devuelve false, caso contrario true
+         */
         internal static bool DeleteCliente(string user)
         {
             try
@@ -329,6 +358,9 @@ namespace feria.REST.Controllers.DBManager
             }
         }
 
+        /*
+         * Metodo para agregar un producto a un productor, buscandolo por cedula
+         */
         public static void AddProducto(int cedula, Producto producto)
         {
             XmlDocument xmlDoc = DataBaseLoader.LoadProductorXml(cedula);
@@ -366,6 +398,9 @@ namespace feria.REST.Controllers.DBManager
             xmlDoc.Save(url_productores + cedula.ToString() + "_doc.xml");
         }
 
+        /*
+         * Metodo para modificar un producto de un productor
+         */
         public static void ModifyProducto(String path, Producto producto)
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -403,6 +438,10 @@ namespace feria.REST.Controllers.DBManager
             xmlDoc.Save(path);
         }
 
+        /*
+         * Metodo para eliminar un productor
+         * Devuelve true si se puede borrar, false si no existe
+         */
         internal static bool DeleteProductor(int id)
         {
             try {
@@ -420,6 +459,9 @@ namespace feria.REST.Controllers.DBManager
             
         }
 
+        /*
+         * Metodo para agregar un nuevo xml con un usuario
+         */
         public static void AddUsuario(Cliente cliente)
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -476,6 +518,9 @@ namespace feria.REST.Controllers.DBManager
             xmlDoc.Save(url_clientes + cliente.GetLogIn() + "_doc.xml");
         }
 
+        /*
+         * Metodo para agregar una categoria nueva a la lista de categorias
+         */
         public static void AddCategoria(Categoria categoria)
         {
             XmlDocument xmlDoc = DataBaseLoader.LoadCategoriasXml();
@@ -497,6 +542,9 @@ namespace feria.REST.Controllers.DBManager
             xmlDoc.Save(url_mist + "Categorias_doc.xml");
         }
 
+        /*
+         * Metodo para agregar un xml de solicitud con la informacion de un productor
+         */
         public static void AddSolicitud(Solicitud solicitud) {
             XmlDocument xmlDoc = new XmlDocument();
             XmlNode rootNode = xmlDoc.CreateElement("Productor");
@@ -560,6 +608,9 @@ namespace feria.REST.Controllers.DBManager
             xmlDoc.Save(url_solicitud + solicitud.id + "_doc.xml");
         }
 
+        /*
+         * Metodo para agregar un identificador con su respectiva cedula, para la lista de solicitudes de productores
+         */
         public static void AddSolicitudId(int id, int cedula) {
             XmlDocument xmlDoc = DataBaseLoader.LoadSolicitudXml();
 

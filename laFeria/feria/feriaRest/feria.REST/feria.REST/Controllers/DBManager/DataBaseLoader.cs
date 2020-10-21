@@ -11,14 +11,23 @@ using System.IO;
 
 namespace feria.REST.Controllers.DBManager
 {
+    /*
+     * Clase para leer los archivos xml con los datos
+     */
     public class DataBaseLoader
     {
-       
+       /*
+        * Variables con las direcciones a las carpetas 
+        */
         static readonly String url_mist = "D:\\proyects\\feria\\feriaDatabase\\Mist\\";
         static readonly String url_productores = "D:\\proyects\\feria\\feriaDatabase\\productores\\";
         static readonly String url_solicitud = "D:\\proyects\\feria\\feriaDatabase\\Mist\\Solicitudes\\";
         static readonly String url_clientes = "D:\\proyects\\feria\\feriaDatabase\\clientes\\";
 
+        /*
+         * Metodo que devuelve el xml con los pedidos de un productor buscandolo con cedula
+         * Si no existe el xml lo crea y lo inicializa
+         */
         public static XmlDocument LoadPedidosXml(int cedula)
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -38,6 +47,9 @@ namespace feria.REST.Controllers.DBManager
             return xmlDoc;
         }
 
+        /*
+         * Metodo para obtener los pedidos de un productor buscandolo por cedula, devuelve un objeto Pedidos
+         */
         internal static Pedidos GetPedidos(int cedula) {
             Pedidos pedidos = new Pedidos(cedula);
             XmlDocument xmlDoc = LoadPedidosXml(cedula);
@@ -64,6 +76,9 @@ namespace feria.REST.Controllers.DBManager
             return pedidos;
         }
 
+        /*
+         * Metodo para obtener el carrito de un usuario por nombre de usuario, devuelve un objeto Carrito
+         */
         internal static Carrito LoadUserCart(string user)
         {
             Carrito cart = new Carrito(user);
@@ -81,6 +96,9 @@ namespace feria.REST.Controllers.DBManager
             return cart;
         }
 
+        /*
+         * Metodo para obtener la lista de Productores de toda la base de datos
+         */
         public static IEnumerable<Productor> LoadAllProductores() {
             List<Productor> listaAll = new List<Productor>();
             List<int> listaCedulas = GetAllCedulasProductores().ToList();
@@ -90,6 +108,9 @@ namespace feria.REST.Controllers.DBManager
             return listaAll;
         }
 
+        /*
+         * Metodo para obtener el xml que contiene la lista con las cedulas de los productores existentes
+         */
         public static XmlDocument LoadProductoresList()
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -109,7 +130,9 @@ namespace feria.REST.Controllers.DBManager
             return xmlDoc;
         }
 
-
+        /*
+         * Metodo que devuelve una lista con todos los ids de los pedidos que tiene un productor, busca por cedula
+         */
         public static List<int> LoadIdsPedidosProductor(int cedula) {
             List<int> idList = new List<int>();
             XmlDocument xmlDoc = LoadIdsPedidosProductorXml(cedula);
@@ -120,6 +143,9 @@ namespace feria.REST.Controllers.DBManager
             return idList;
         }
 
+        /*
+         * Metodo para obtener el xml con las lista de pedidos de un productor, buscandolo por cedula
+         */
         public static XmlDocument LoadIdsPedidosProductorXml(int cedula)
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -139,6 +165,9 @@ namespace feria.REST.Controllers.DBManager
             return xmlDoc;
         }
 
+        /*
+         * Metodo para obtener el xml con el carrito de un usuario
+         */
         internal static XmlDocument LoadUserCartXml(string user)
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -158,6 +187,9 @@ namespace feria.REST.Controllers.DBManager
             return xmlDoc;
         }
 
+        /*
+         * Metodo para obtener la lista con todas las cedulas de los productores
+         */
         public static IEnumerable<int> GetAllCedulasProductores() {
             List<int> list = new List<int>();
             XmlDocument xmlDoc = LoadProductoresList();
@@ -169,6 +201,10 @@ namespace feria.REST.Controllers.DBManager
             return list;
         }
 
+        /*
+         * Metodo para obtener el xml con la lista de usuarios que existen el la base de datos
+         * Si no existe lo crea y inicializa
+         */
         public static XmlDocument LoadClientesListXml()
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -188,6 +224,9 @@ namespace feria.REST.Controllers.DBManager
             return xmlDoc;
         }
 
+        /*
+         * Metodo para obtener la lista de usuarios existentes en la base de datos
+         */
         public static IEnumerable<String> GetAllUsers()
         {
             List<String> list = new List<String>();
@@ -199,6 +238,10 @@ namespace feria.REST.Controllers.DBManager
             }
             return list;
         }
+
+        /*
+         * Metodo para obtener la lista con todas las solicitudes de los productores
+         */
         internal static IEnumerable<Solicitud> LoadSolicitudes()
         {
             List<Solicitud> list = new List<Solicitud>();
@@ -218,6 +261,9 @@ namespace feria.REST.Controllers.DBManager
             return list;
         }
 
+        /*
+         * Metodo para obtener un objeto Solicitud basado en un identificador de la solicitud
+         */
         internal static Solicitud LoadSolicitud(int id)
         {
             XmlDocument xmlDoc = LoadSolicitudXml();
@@ -234,6 +280,9 @@ namespace feria.REST.Controllers.DBManager
             return new Solicitud(id, productor);
         }
 
+        /*
+         * Metodo para obtener la lista de categorias presente
+         */
         internal static IEnumerable<Categoria> LoadCategorias()
         {
             List<Categoria> list = new List<Categoria>();
@@ -246,6 +295,9 @@ namespace feria.REST.Controllers.DBManager
             return list;
         }
 
+        /*
+         * Metodo para obtener el ultimo id para una solitud y crear uno nuevo con el consecutivo siguiente
+         */
         internal static int LoadLastSolicitudId(int id)
         {
             XmlDocument xmlDocument = LoadSolicitudXml();
@@ -264,6 +316,9 @@ namespace feria.REST.Controllers.DBManager
             return last;
         }
 
+        /*
+         * Metodo para obtener un objeto Categoria, usando el id de la categoria
+         */
         internal static Categoria LoadCategoria(int id)
         {
             XmlDocument xmlDoc = LoadCategoriasXml();
@@ -276,6 +331,9 @@ namespace feria.REST.Controllers.DBManager
             return null;
         }
 
+        /*
+         * Metodo para obtener el xml que contiene las categorias
+         */
         public static XmlDocument LoadCategoriasXml() {
             XmlDocument xmlDoc = new XmlDocument();
             try {
@@ -292,6 +350,9 @@ namespace feria.REST.Controllers.DBManager
             return xmlDoc;
         }
 
+        /*
+         * Metodo para obtener el xml con un productor buscandolo por cedula
+         */
         public static XmlDocument LoadProductorXml(int cedula)
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -303,6 +364,9 @@ namespace feria.REST.Controllers.DBManager
             }
         }
 
+        /*
+         * Metodo para obtener un objeto Productor, buscandolo por cedula
+         */
         public static Productor LoadProductor(int cedula) {
             XmlDocument xmlDoc = LoadProductorXml(cedula);
             if (xmlDoc == null) { return null; }
@@ -346,6 +410,9 @@ namespace feria.REST.Controllers.DBManager
             return productor;
         }
 
+        /*
+         * Metodo para obtener un objeto productor usando la ruta de archivo
+         */
         public static Productor LoadProductor(String path)
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -396,6 +463,9 @@ namespace feria.REST.Controllers.DBManager
             return productor;
         }
 
+        /*
+         * Metodo para cargar una lista de Productos que ofrezca un productor, buscandolo por cedula
+         */
         public static List<Producto> LoadProductorInventory(int cedula) {
             List<Producto> inventario = new List<Producto>();
             XmlDocument xmlDoc = LoadProductorXml(cedula);
@@ -415,11 +485,14 @@ namespace feria.REST.Controllers.DBManager
             return inventario;
         }
 
-        public static XmlDocument LoadClienteXml(String cedula)
+        /*
+         * Metodo para cargar el xml de un cliente buscandolo por usuario
+         */
+        public static XmlDocument LoadClienteXml(String usuario)
         {
             XmlDocument xmlDoc = new XmlDocument();
             try {
-                xmlDoc.Load(url_clientes + cedula + "_doc.xml");
+                xmlDoc.Load(url_clientes + usuario + "_doc.xml");
                 return xmlDoc;
             } catch (FileNotFoundException)
             {
@@ -427,6 +500,9 @@ namespace feria.REST.Controllers.DBManager
             }
         }
 
+        /*
+         * Metodo para obtener un objeto Cliente que coincida con un usuario y una clave
+         */
         public static Cliente CheckLogIn(String usuario, String clave) {
             XmlDocument xmlDoc = new XmlDocument();
             try
@@ -454,6 +530,9 @@ namespace feria.REST.Controllers.DBManager
             }
         }
 
+        /*
+         * Metodo para cargar un objeto Cliente buscandolo por usuario
+         */
         public static Cliente LoadCliente(String usuario) {
             XmlDocument xmlDoc = LoadClienteXml(usuario);
             if (xmlDoc == null) { return null; }
@@ -479,6 +558,9 @@ namespace feria.REST.Controllers.DBManager
             return cliente;
         }
 
+        /*
+         * Metodo paa cargar el xml que contiene los id con las solicitudes, sino existe lo crea e inicializa
+         */
         internal static XmlDocument LoadSolicitudXml()
         {
             XmlDocument xmlDoc = new XmlDocument();
