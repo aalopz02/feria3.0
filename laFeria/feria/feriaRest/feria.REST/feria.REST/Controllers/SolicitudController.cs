@@ -12,7 +12,9 @@ namespace feria.REST.Controllers
 {
     public class SolicitudController : ApiController
     {
-        // GET api/<controller>
+
+        // GET de todas las solicitudes existentes en la base de datos 
+        //api/Solicitud?
         public IEnumerable<Solicitud> Get()
         {
             return DataBaseLoader.LoadSolicitudes();
@@ -24,7 +26,7 @@ namespace feria.REST.Controllers
             return DataBaseLoader.LoadSolicitud(id);
         }
 
-        // POST 
+        // POST de una nueva solicitud
         //api/Solicitud?id=000&info=nombre-appellido-apellido2-provincia-canton-distrito-fecha-1-2-lugaresN-lugarQ
         public bool Post(int id, string info)
         {
@@ -68,7 +70,8 @@ namespace feria.REST.Controllers
         {
         }
 
-        // DELETE api/<controller>/5
+        // DELETE de una solicitud 
+        //api/<controller>/5
 
         public bool Delete(int id)
         {

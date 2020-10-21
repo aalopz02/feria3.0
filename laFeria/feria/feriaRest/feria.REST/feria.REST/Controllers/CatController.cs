@@ -10,19 +10,22 @@ namespace feria.REST.Controllers
 {
     public class CatController : ApiController
     {
-        // GET api/<controller>
+        // GET de todas las categorias que existen el la base de datos
+        //api/Cat?
         public IEnumerable<Categoria> Get()
         {
             return DataBaseLoader.LoadCategorias();
         }
 
-        // GET api/<controller>?id=5
+        // GET de una categoria en especifico, buscando por id
+        //api/Cat?id=5
         public Categoria Get(int id)
         {
             return DataBaseLoader.LoadCategoria(id);
         }
 
-        // POST api/<controller>?id=12&nombre=papapapa
+        // POST para crear una nueva categoria
+        //api/Cat?id=12&nombre=papapapa
         public Boolean Post(int id, string nombre)
         {
             if (DataBaseLoader.LoadCategoria(id) != null) {
@@ -33,13 +36,15 @@ namespace feria.REST.Controllers
             return true;
         }
 
-        // PUT api/<controller>?id=0&value=nuevo
+        // PUT para modificar el nombre de una categoria
+        //api/Cat?id=0&value=nuevo
         public Boolean Put(int id, string value)
         {
             return DataBaseWriter.ModifyCat(id,value);
         }
 
-        // DELETE api/<controller>?id=5
+        // DELETE de una categoria
+        //api/Cat?id=5
         public Boolean Delete(int id)
         {
             return DataBaseWriter.DeleteCat(id);

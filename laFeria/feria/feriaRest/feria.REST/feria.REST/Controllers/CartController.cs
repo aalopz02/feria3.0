@@ -8,9 +8,12 @@ using System.Web.Http;
 
 namespace feria.REST.Controllers
 {
+    /*
+     * Controlador para carritos
+     */
     public class CartController : ApiController
     {
-        //POST
+        //funcion POST para crear un pedido a cada productor que corresponda para cada producto del carrito de un usuario
         //api/Cart?nombreUser=aalopz
         public void POST(String nombreUser, String factura)
         {
@@ -44,7 +47,7 @@ namespace feria.REST.Controllers
 
         }
 
-        //GET
+        //GET de todos los articulos que un cliente tiene en el carrito
         //api/Cart?nombreUser=aalopz
         public IEnumerable<Articulo> Get(String nombreUser)
         {
@@ -52,7 +55,7 @@ namespace feria.REST.Controllers
             return cart.listado;
         }
 
-        //POST
+        //PUT para annadir un producto al carrito de un usuario
         //api/Cart?user=aalopz&nombreProducto=nombreProducto&cantidad=000&cedulaProductor=1
         public Boolean PUT(String user, String nombreProducto, int cantidad, int cedulaProductor)
         {
@@ -61,12 +64,15 @@ namespace feria.REST.Controllers
             {
                 if (producto1.nombre.Equals(nombreProducto))
                 {
-                    producto = producto1;
+                    if (producto1.disponible >= cantidad) {
+                        producto = producto1;
+                    }
                 }
             }
             Articulo articulo = new Articulo(nombreProducto, cedulaProductor, producto.precio, cantidad, producto.modoVenta);
             return DataBaseWriter.AddProductoToCarrito(user, articulo);
         }
+
 
         // DELETE api/<controller>/5
         public void Delete(int id)

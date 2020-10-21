@@ -140,7 +140,9 @@ D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\Microsoft.Co
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\Microsoft.Web.Infrastructure.dll
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\Newtonsoft.Json.dll
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Net.Http.Formatting.dll
+D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Web.Cors.dll
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Web.Helpers.dll
+D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Web.Http.Cors.dll
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Web.Http.dll
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Web.Http.WebHost.dll
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Web.Mvc.dll
@@ -150,6 +152,7 @@ D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Web.W
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Web.WebPages.dll
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Web.WebPages.Razor.dll
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\WebGrease.dll
+D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Web.Http.Cors.xml
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\Newtonsoft.Json.xml
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Net.Http.Formatting.xml
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Web.Helpers.xml
@@ -168,6 +171,3 @@ D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\obj\Debug\feria.
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\obj\Debug\feria.REST.csproj.CopyComplete
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\obj\Debug\feria.REST.dll
 D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\obj\Debug\feria.REST.pdb
-D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Web.Cors.dll
-D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Web.Http.Cors.dll
-D:\proyects\feria\laFeria\feria\feriaRest\feria.REST\feria.REST\bin\System.Web.Http.Cors.xml

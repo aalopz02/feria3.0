@@ -11,20 +11,22 @@ namespace feria.REST.Controllers
     public class ClienteController : ApiController
     {
 
-        //GET
+        //GET de todos los productores que tienen disponible como lugar de entrega el distrito de un usuario 
         ///api/Cliente?usuario=aalopz
         public IEnumerable<Productor> GetProductores(String usuario) {
             Cliente cliente = DataBaseLoader.LoadCliente(usuario);
             return new ProductorController().GetByDistrito(cliente.direccion[2]);
         }
 
-        // /api/Cliente?user=aalopz
+        // GET para obtener un usuario buscandolo por su nombre
+        //api/Cliente?user=aalopz
         public Cliente Get(String user)
         {
             return DataBaseLoader.LoadCliente(user);
         }
 
-        // /api/Cliente?user=aalopz&password=clave
+        //Get para hacer el inicio de sesion, retorna false si no coincide 
+        //api/Cliente?user=aalopz&password=clave
         public Boolean Get(String user, String password)
         {
             Cliente cliente = DataBaseLoader.CheckLogIn(user, password);
@@ -34,7 +36,7 @@ namespace feria.REST.Controllers
             return true;
         }
 
-        //Post
+        //Post de un nuevo cliente
         // https://localhost:44303/api/Cliente?cedula=12345&info=nombre-appellido-apellido2-provincia-canton-distrito-fecha-8888-aalopz-clave
         public Boolean Post(int cedula, string info) 
         {
@@ -62,6 +64,7 @@ namespace feria.REST.Controllers
             return true;
         }
 
+        //PUT para modificar un cliente
         public Boolean PUT(int cedula, string info) {
             String[] valores = info.Split('-');
             if (!DataBaseLoader.GetAllUsers().Contains(valores[8]))
@@ -85,6 +88,7 @@ namespace feria.REST.Controllers
             return true;
         }
 
+        //DELETE de un usuario
         public Boolean DELETE(String user)
         {
             return DataBaseWriter.DeleteCliente(user);

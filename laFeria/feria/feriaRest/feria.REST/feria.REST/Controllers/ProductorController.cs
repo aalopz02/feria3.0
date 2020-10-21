@@ -13,7 +13,7 @@ namespace feria.REST.Controllers
     public class ProductorController : ApiController
     {
 
-        //GET
+        //GET de los pedidos de un productor
         //api/Productor?cedulaPedidos=1234
         public Pedidos GetPedidos(int cedulaPedidos)
         {
@@ -21,7 +21,7 @@ namespace feria.REST.Controllers
         }
 
 
-        // GET
+        //GET de los productores que tienen un distrito como lugar disponible para entrega
         //api/Productor?distrito=nombre
         public IEnumerable<Productor> GetByDistrito(String distrito) {
             IEnumerable<Productor> allProductores = Get();
@@ -34,28 +34,28 @@ namespace feria.REST.Controllers
             return selectedProductores;
          }
 
-        // GET
+        // GET de todos los produtores de la base de datos
         //api/Productor?
         public IEnumerable<Productor> Get()
         {
             return DataBaseLoader.LoadAllProductores();
         }
 
-        // GET
+        // GET de la lista de productos que ofrece un productor
         //api/Productor?cedula=000
         public List<Producto> GetProductos(int cedula)
         {
             return DataBaseLoader.LoadProductorInventory(cedula);
         }
 
-        // GET
+        // GET de un productor 
         //api/Productor?id=000
         public Productor Get(int id)
         {
             return DataBaseLoader.LoadProductor(id);
         }
 
-        // Post
+        // Post de un nuevo productor
         //api/Productor?id=000&info=nombre-appellido-apellido2-provincia-canton-distrito-fecha-1-2-lugaresN-lugarQ
         public Boolean Post(int id, string info)
         {
@@ -79,11 +79,12 @@ namespace feria.REST.Controllers
             }
             Productor productor = new Productor(id, listaNombre, listaDireccion, valores[6],
                                                  valores[7], valores[8], listaLugaresEntrega);
-            DataBaseWriter.CrearNuevoProductor(productor).ToString();
+            DataBaseWriter.CrearNuevoProductor(productor);
             DataBaseWriter.AddCedulaProductor(id);
             return true;
         }
 
+        //funcion para agregar un producto a un productor
         //api/Productor?id=cedulaProductor&infoproducto=nombreProducto-categoria-precio-modoVenta-cantidad-img
         public Boolean AddProducto(int id, string infoproducto)
         {
@@ -105,6 +106,7 @@ namespace feria.REST.Controllers
             return false;
         }
 
+        //PATCH para modificar un productor
         //api/Productor?id=000&info=nombre-appellido-apellido2-provincia-canton-distrito-fecha-1-2-lugaresN-lugarQ
         public Boolean PATCH(int id, String info)
         {
@@ -132,10 +134,11 @@ namespace feria.REST.Controllers
             }
             Productor productor = new Productor(id, listaNombre, listaDireccion, valores[6],
                                                  valores[7], valores[8], listaLugaresEntrega);
-            DataBaseWriter.CrearNuevoProductor(productor).ToString();
+            DataBaseWriter.CrearNuevoProductor(productor);
             return true;
         }
 
+        //DELETE de un productor
         //api/Productor?id=000
         public Boolean DELETE(int id)
         {

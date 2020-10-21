@@ -118,7 +118,7 @@ namespace feria.REST.Controllers.DBManager
         /*
          * Metodo para agregar un Articulo al carrito de un usuario
          */
-        internal static void AddProductoToCarrito(string user, Articulo articulo)
+        internal static Boolean AddProductoToCarrito(string user, Articulo articulo)
         {
             XmlDocument xmlDoc = DataBaseLoader.LoadUserCartXml(user);
             XmlNode rootNode = xmlDoc.ChildNodes[0];
@@ -143,6 +143,8 @@ namespace feria.REST.Controllers.DBManager
 
             rootNode.AppendChild(nodeProducto);
             xmlDoc.Save(url_clientes + "carritos//" + user + "_doc.xml");
+
+            return true;
         }
 
         /*
@@ -235,7 +237,7 @@ namespace feria.REST.Controllers.DBManager
         /*
          * Metodo para borrar una solicitud de union de un productor de la lista de solicitudes, lo busca por id de solicitud
          */
-        internal static void DeleteSolicitud(int id)
+        internal static bool DeleteSolicitud(int id)
         {
             XmlDocument xmlDoc = DataBaseLoader.LoadSolicitudXml();
             XmlNodeList nodeList = xmlDoc.DocumentElement.ChildNodes;
@@ -256,6 +258,7 @@ namespace feria.REST.Controllers.DBManager
             {
                 AddSolicitudId(ids[i],cedulasProductores[i]);
             }
+            return true;
         }
 
         /*
@@ -301,7 +304,7 @@ namespace feria.REST.Controllers.DBManager
          * Metodo para modificar una categoria, la busca por id y le asigna el nuevo nombre
          * Busca los porductos que tengan ese nomrbe de categoria y se los actualiza
          */
-        internal static void ModifyCat(int id, string value)
+        internal static Boolean ModifyCat(int id, string value)
         {
             XmlDocument catDoc = DataBaseLoader.LoadCategoriasXml();
             List<Categoria> list = new List<Categoria>();
@@ -333,6 +336,7 @@ namespace feria.REST.Controllers.DBManager
                     AddProducto(productor.cedula,producto);
                 }
             }
+            return true;
         }
 
         /*
