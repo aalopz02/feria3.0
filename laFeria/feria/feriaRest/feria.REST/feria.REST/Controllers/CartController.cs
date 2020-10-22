@@ -44,7 +44,7 @@ namespace feria.REST.Controllers
                 };
                 DataBaseWriter.AddPedidoAProductor(cedulas[i], pedido);
             }
-
+            DataBaseWriter.DeleteCarrito(nombreUser);
         }
 
         //GET de todos los articulos que un cliente tiene en el carrito
