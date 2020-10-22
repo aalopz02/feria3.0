@@ -149,8 +149,10 @@ namespace feria.REST.Controllers.DBManager
                 }
             }
             xmlDoc.AppendChild(rootNode);
-
-            articulo.cantidad = cantidadAnterior += 1;
+            if (articulo.cantidad == -1) {
+                articulo.cantidad = cantidadAnterior += 1;
+            }
+            
             XmlNode nodeProducto = xmlDoc.CreateElement("Producto");
             XmlAttribute atributo;
             atributo = xmlDoc.CreateAttribute("NombreProducto");

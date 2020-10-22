@@ -64,8 +64,12 @@ namespace feria.REST.Controllers
             {
                 if (producto1.nombre.Equals(nombreProducto))
                 {
-                    if (producto1.disponible >= cantidad) {
+                    if (producto1.disponible >= cantidad)
+                    {
                         producto = producto1;
+                    }
+                    else {
+                        return false;
                     }
                 }
             }
@@ -76,6 +80,33 @@ namespace feria.REST.Controllers
                 return false;
             }
             
+        }
+
+        //PUT para annadir un producto al carrito de un usuario
+        //api/Cart?user=aalopz&nombreProducto=nombreProducto&cedulaProductor=1
+        public Boolean PUT(String user, String nombreProducto, int cedulaProductor)
+        {
+            Producto producto = null;
+            foreach (Producto producto1 in DataBaseLoader.LoadProductorInventory(cedulaProductor))
+            {
+                if (producto1.nombre.Equals(nombreProducto))
+                {
+                    if (producto1.disponible >= 1)
+                    {
+                        producto = producto1;
+                    }
+                }
+            }
+            try
+            {
+                Articulo articulo = new Articulo(nombreProducto, cedulaProductor, producto.precio, -1, producto.modoVenta);
+                return DataBaseWriter.AddProductoToCarrito(user, articulo);
+            }
+            catch (NullReferenceException)
+            {
+                return false;
+            }
+
         }
 
         //DELETE para quitar un producto al carrito de un usuario
