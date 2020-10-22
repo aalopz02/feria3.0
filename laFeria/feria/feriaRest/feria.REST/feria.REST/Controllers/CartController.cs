@@ -78,6 +78,13 @@ namespace feria.REST.Controllers
             
         }
 
+        //DELETE para quitar un producto al carrito de un usuario
+        //api/Cart?user=aalopz&nombreProducto=nombreProducto&cedulaProductor=1
+        public Boolean DELETE(String user, String nombreProducto,int cedulaProductor)
+        {
+            return DataBaseWriter.DeleteProductoCarrito(user, nombreProducto, cedulaProductor);
+
+        }
 
         // DELETE api/<controller>/5
         public void Delete(int id)

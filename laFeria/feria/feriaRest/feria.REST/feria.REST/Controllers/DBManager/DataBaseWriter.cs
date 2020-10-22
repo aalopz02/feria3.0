@@ -96,6 +96,23 @@ namespace feria.REST.Controllers.DBManager
             xmlDoc.Save(url_productores + "pedidos//" + cedula.ToString() + "_doc.xml");
         }
 
+        internal static bool DeleteProductoCarrito(string user, string nombreProducto, int cedulaProductor)
+        {
+            XmlDocument xmlDoc = DataBaseLoader.LoadUserCartXml(user);
+            XmlNode rootNode = xmlDoc.ChildNodes[0];
+            foreach (XmlNode node in rootNode.ChildNodes)
+            {
+                if (node.Attributes["NombreProducto"].Value.ToString().Equals(nombreProducto)
+                    && node.Attributes["CedulaProductor"].Value.ToString().Equals(cedulaProductor.ToString()))
+                {
+                    rootNode.RemoveChild(node);
+                    xmlDoc.Save(url_clientes + "carritos//" + user + "_doc.xml");
+                    return true;
+                }
+            }
+            return false;
+        }
+
         /*
          * Metodo para agregar un usuario nuevo a la lista de usuarios
          */
