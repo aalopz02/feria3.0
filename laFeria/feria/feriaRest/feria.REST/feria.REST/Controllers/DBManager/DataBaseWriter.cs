@@ -114,6 +114,23 @@ namespace feria.REST.Controllers.DBManager
         }
 
         /*
+         * Metodo para actualizar la cantidad de producto de un productor
+         */
+        internal static bool ActualizarProducto(int cedula, string nombreProducto, int cantidad)
+        {
+            XmlDocument xmldoc = DataBaseLoader.LoadProductorXml(cedula);
+            XmlNode rootNode = xmldoc.ChildNodes[0];
+            foreach (XmlNode producto in rootNode.ChildNodes[4].ChildNodes) {
+                if (producto.Attributes["Nombre"].Value.ToString().Equals(nombreProducto)) {
+                    producto.Attributes["Disponibles"].Value = (int.Parse(producto.Attributes["Disponibles"].Value.ToString()) + cantidad).ToString();
+                    xmldoc.Save(url_productores + cedula.ToString() + "_doc.xml");
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /*
          * Metodo para agregar un usuario nuevo a la lista de usuarios
          */
         public static void AddUserNameToList(String usuario)
@@ -173,6 +190,8 @@ namespace feria.REST.Controllers.DBManager
 
             rootNode.AppendChild(nodeProducto);
             xmlDoc.Save(url_clientes + "carritos//" + user + "_doc.xml");
+
+            ActualizarProducto(articulo.cedulaProductor, articulo.Producto, -articulo.cantidad);
 
             return true;
         }

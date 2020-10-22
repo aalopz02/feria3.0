@@ -94,6 +94,10 @@ namespace feria.REST.Controllers
                     if (producto1.disponible >= 1)
                     {
                         producto = producto1;
+
+                    }
+                    else {
+                        return false;
                     }
                 }
             }

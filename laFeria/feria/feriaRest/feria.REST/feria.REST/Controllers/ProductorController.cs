@@ -30,7 +30,7 @@ namespace feria.REST.Controllers
                 }
             }
             return selectedProductores;
-         }
+        }
 
         // GET de todos los produtores de la base de datos
         //api/Productor?
@@ -88,7 +88,7 @@ namespace feria.REST.Controllers
         {
             String[] valores = infoproducto.Split('-');
             Productor productor = DataBaseLoader.LoadProductor(id);
-            if (productor==null) { return false; }
+            if (productor == null) { return false; }
             List<Categoria> listaCat = DataBaseLoader.LoadCategorias().ToList();
             foreach (Categoria cat in listaCat)
             {//String nombre, String categoria, int precio, String modoVenta, String imagen)
@@ -102,6 +102,12 @@ namespace feria.REST.Controllers
             }
 
             return false;
+        }
+
+        //PATCH para actualizar la cantidad de un producto
+        //api/Productor?cedula=000&producto=nombreProducto&cantidad=12
+        public Boolean PATCH(int cedula, String producto, int cantidad) {
+            return DataBaseWriter.ActualizarProducto(cedula, producto, cantidad);
         }
 
         //PATCH para modificar un productor
