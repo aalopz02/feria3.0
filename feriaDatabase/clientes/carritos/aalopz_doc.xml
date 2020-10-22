@@ -1,5 +1,3 @@
 <Carrito>
-  <Producto NombreProducto="cosasss" CedulaProductor="222222" Precio="22" Cantidad="10" ModoVenta="kilo" />
-  <Producto NombreProducto="muslitos" CedulaProductor="1234" Precio="22" Cantidad="16" ModoVenta="kilo" />
-  <Producto NombreProducto="nombreProducto" CedulaProductor="1234" Precio="22" Cantidad="10" ModoVenta="pieza" />
+  <Producto NombreProducto="nombreProducto" CedulaProductor="1234" Precio="22" Cantidad="2" ModoVenta="pieza" />
 </Carrito>

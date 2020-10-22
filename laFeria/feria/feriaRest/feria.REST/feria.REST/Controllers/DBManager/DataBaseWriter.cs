@@ -166,8 +166,13 @@ namespace feria.REST.Controllers.DBManager
                 }
             }
             xmlDoc.AppendChild(rootNode);
-            if (articulo.cantidad == -1) {
+            if (articulo.cantidad == -1)
+            {
+                ActualizarProducto(articulo.cedulaProductor, articulo.Producto, -1);
                 articulo.cantidad = cantidadAnterior += 1;
+            }
+            else {
+                ActualizarProducto(articulo.cedulaProductor, articulo.Producto, -articulo.cantidad);
             }
             
             XmlNode nodeProducto = xmlDoc.CreateElement("Producto");
@@ -190,9 +195,7 @@ namespace feria.REST.Controllers.DBManager
 
             rootNode.AppendChild(nodeProducto);
             xmlDoc.Save(url_clientes + "carritos//" + user + "_doc.xml");
-
-            ActualizarProducto(articulo.cedulaProductor, articulo.Producto, -articulo.cantidad);
-
+   
             return true;
         }
 
