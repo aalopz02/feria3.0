@@ -122,7 +122,18 @@ namespace feria.REST.Controllers.DBManager
         {
             XmlDocument xmlDoc = DataBaseLoader.LoadUserCartXml(user);
             XmlNode rootNode = xmlDoc.ChildNodes[0];
+            int cantidadAnterior = 0;
+            foreach (XmlNode node in rootNode.ChildNodes)
+            {
+                if (node.Attributes["NombreProducto"].Value.ToString().Equals(articulo.Producto) 
+                    && node.Attributes["CedulaProductor"].Value.ToString().Equals(articulo.cedulaProductor.ToString())) {
+                    rootNode.RemoveChild(node);
+                    cantidadAnterior = int.Parse(node.Attributes["Cantidad"].Value.ToString());
+                }
+            }
             xmlDoc.AppendChild(rootNode);
+
+            articulo.cantidad = cantidadAnterior += 1;
             XmlNode nodeProducto = xmlDoc.CreateElement("Producto");
             XmlAttribute atributo;
             atributo = xmlDoc.CreateAttribute("NombreProducto");

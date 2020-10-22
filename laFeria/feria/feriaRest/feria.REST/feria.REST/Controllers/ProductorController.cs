@@ -5,9 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.UI.WebControls;
-//https://www.tutorialsteacher.com/webapi/parameter-binding-in-web-api
-//https://csharp.net-tutorials.com/xml/reading-xml-with-the-xmldocument-class/
-//https://www.tutorialsteacher.com/webapi/test-web-api
+
 namespace feria.REST.Controllers
 {
     public class ProductorController : ApiController

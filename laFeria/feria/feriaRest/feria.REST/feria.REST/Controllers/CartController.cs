@@ -14,7 +14,7 @@ namespace feria.REST.Controllers
     public class CartController : ApiController
     {
         //funcion POST para crear un pedido a cada productor que corresponda para cada producto del carrito de un usuario
-        //api/Cart?nombreUser=aalopz
+        //api/Cart?nombreUser=aalopz&factura=x
         public void POST(String nombreUser, String factura)
         {
             IEnumerable<Articulo> articulos = Get(nombreUser);
@@ -69,8 +69,13 @@ namespace feria.REST.Controllers
                     }
                 }
             }
-            Articulo articulo = new Articulo(nombreProducto, cedulaProductor, producto.precio, cantidad, producto.modoVenta);
-            return DataBaseWriter.AddProductoToCarrito(user, articulo);
+            try {
+                Articulo articulo = new Articulo(nombreProducto, cedulaProductor, producto.precio, cantidad, producto.modoVenta);
+                return DataBaseWriter.AddProductoToCarrito(user, articulo);
+            } catch (NullReferenceException) {
+                return false;
+            }
+            
         }
 
 
