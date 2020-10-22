@@ -40,6 +40,10 @@ namespace feria.REST.Controllers
         //api/Cat?id=0&value=nuevo
         public Boolean Put(int id, string value)
         {
+            if (DataBaseLoader.LoadCategoria(id) == null)
+            {
+                return false;
+            }
             return DataBaseWriter.ModifyCat(id,value);
         }
 

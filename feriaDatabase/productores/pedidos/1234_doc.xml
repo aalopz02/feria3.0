@@ -11,4 +11,9 @@
       <Articulo Producto="muslitos" Cantidad="10" Precio="22" ModoVenta="kilo" />
     </Articulos>
   </Pedido>
+  <Pedido IdPedido="3" Usuario="aalopz" Direccion="provincia,canton,erer" Factura="x">
+    <Articulos>
+      <Articulo Producto="nombreProducto" Cantidad="2" Precio="22" ModoVenta="pieza" />
+    </Articulos>
+  </Pedido>
 </Pedidos>
